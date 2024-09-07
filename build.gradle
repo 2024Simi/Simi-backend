@@ -46,6 +46,16 @@ dependencies {
 	testRuntimeOnly 'com.h2database:h2'
 	// postgresql //
 	runtimeOnly 'org.postgresql:postgresql'
+
+
+	// jwt
+	//JJWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+	// speed json
+	implementation 'com.fasterxml.jackson.module:jackson-module-afterburner:2.15.0'
+
 }
 
 def queryDslSrcDir = 'src/main/generated'
