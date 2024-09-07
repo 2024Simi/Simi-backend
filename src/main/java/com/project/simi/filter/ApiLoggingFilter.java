@@ -73,6 +73,8 @@ public class ApiLoggingFilter implements Filter {
                 httpStatus,
                 wrappedRequest.getMethod(),
                 getRequestPath(httpServletRequest));
+            log.info("Request: {}", MDC.get("request_body"));
+            log.info("Response: {}", MDC.get("response_body"));
         } finally {
             MDC.clear();
             wrappedResponse.copyBodyToResponse();
