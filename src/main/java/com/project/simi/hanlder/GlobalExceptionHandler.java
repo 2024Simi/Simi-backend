@@ -1,4 +1,4 @@
-package com.project.simi.common.exception.hanlder;
+package com.project.simi.hanlder;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;

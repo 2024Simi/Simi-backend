@@ -1,4 +1,4 @@
-package com.project.simi.common.exception.hanlder;
+package com.project.simi.hanlder;
 
 import com.project.simi.common.exception.BusinessException;
 import java.lang.reflect.InvocationTargetException;
