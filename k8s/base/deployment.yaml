@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simi-app-deploy
+  labels:
+    app.kubernetes.io/instance: simi-app
+    app.kubernetes.io/name: simi-app
+    app.kubernetes.io/managed-by: kubectl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simi-app
+  template:
+    metadata:
+      labels:
+        app: simi-app
+    spec:
+      containers:
+        - name: simi-app
+          image: DOCKER_IMAGE_PLACE_HOLDER
+          imagePullPolicy: IfNotPresent
+          
+          # envFrom:
+          #   - configMapRef:
+          #       name: simi-appr-configmap
+          #   - secretRef:
+          #       name: simi-app-secret
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1G
+            requests:
+              cpu: 500m
+              memory: 1G
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=80.0 -XX:MinRAMPercentage=70.0 -XX:InitialRAMPercentage=70.0"
+          # livenessProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 9090
+          #   periodSeconds: 120
+          #   timeoutSeconds: 120
+          #   successThreshold: 1
+          #   failureThreshold: 5
+          # readinessProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 9090
+          #   periodSeconds: 120
+          #   timeoutSeconds: 120
+          #   successThreshold: 1
+          #   failureThreshold: 5
+          # startupProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 9090
+          #   periodSeconds: 5
+          #   timeoutSeconds: 120
+          #   successThreshold: 1
+          #   failureThreshold: 20
+          #   initialDelaySeconds: 10
+      imagePullSecrets:
+        - name: ocir-secret
