@@ -12,6 +12,7 @@ public class TestController {
     public String test() {
         return "Hello, world!";
     }
+
     @PostMapping
     public String testPost() {
         return "Hello, world!";

@@ -6,11 +6,10 @@ import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
-import com.project.simi.common.base.ApiResult;
-import com.project.simi.common.base.ValidationErrorResponse;
-import com.project.simi.common.exception.BusinessException;
 import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -23,11 +22,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import com.project.simi.common.base.ApiResult;
+import com.project.simi.common.base.ValidationErrorResponse;
+import com.project.simi.common.exception.BusinessException;
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     // =================================================================================================================================================
-
 
     @ResponseStatus(code = NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)

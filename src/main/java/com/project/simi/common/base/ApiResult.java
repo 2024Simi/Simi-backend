@@ -1,11 +1,13 @@
 package com.project.simi.common.base;
 
-import com.project.simi.common.exception.CustomException;
-import com.project.simi.common.exception.code.ResultCodeProvider;
 import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+
+import com.project.simi.common.exception.CustomException;
+import com.project.simi.common.exception.code.ResultCodeProvider;
 
 @Getter
 @ToString
@@ -19,7 +21,7 @@ public class ApiResult<T> {
         return of(exception.getResultCode(), exception.getData());
     }
 
-    public static ApiResult<Object> of(final Exception e){
+    public static ApiResult<Object> of(final Exception e) {
         return of(e.getMessage(), e.getMessage(), null);
     }
 

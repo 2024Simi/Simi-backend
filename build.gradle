@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.3'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id 'com.diffplug.spotless' version '6.23.3'
 }
 
 group = 'com.project'
@@ -55,6 +56,8 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 	// speed json
 	implementation 'com.fasterxml.jackson.module:jackson-module-afterburner:2.15.0'
+	// spotless
+	implementation 'com.diffplug.spotless:spotless-plugin-gradle:6.23.3'
 
 }
 
@@ -70,4 +73,15 @@ clean {
 
 tasks.withType(JavaCompile) {
 	options.generatedSourceOutputDirectory = file(queryDslSrcDir)
+}
+
+spotless {
+	java {
+		target fileTree('src/main/java').exclude('**/generated/**')
+		googleJavaFormat().aosp()
+		importOrder 'java', 'javax', 'lombok', 'jakarta', 'org', 'com'
+		removeUnusedImports()
+		trimTrailingWhitespace()
+		endWithNewline()
+	}
 }

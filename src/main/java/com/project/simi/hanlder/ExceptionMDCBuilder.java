@@ -1,11 +1,12 @@
 package com.project.simi.hanlder;
 
-import com.project.simi.common.exception.BusinessException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import org.slf4j.MDC;
 import org.springframework.core.NestedRuntimeException;
 
+import com.project.simi.common.exception.BusinessException;
 
 public class ExceptionMDCBuilder {
     public static void getStringStringMap(Exception ex) {
@@ -38,7 +39,7 @@ public class ExceptionMDCBuilder {
     }
 
     private static String stackTraceStringBuilder(
-        String rootMessage, StackTraceElement[] stackTrace, int maxDepth) {
+            String rootMessage, StackTraceElement[] stackTrace, int maxDepth) {
         if (stackTrace == null) {
             return rootMessage;
         }

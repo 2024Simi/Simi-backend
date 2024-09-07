@@ -1,5 +1,13 @@
 package com.project.simi.filter;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -8,12 +16,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.slf4j.MDC;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -21,7 +24,6 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
-
 
 @Component
 @RequiredArgsConstructor
@@ -51,15 +53,15 @@ public class ApiLoggingFilter implements Filter {
 
     @Override
     public void doFilter(
-        ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-        throws IOException, ServletException {
+            ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
         ContentCachingRequestWrapper wrappedRequest =
-            new ContentCachingRequestWrapper(httpServletRequest);
+                new ContentCachingRequestWrapper(httpServletRequest);
         ContentCachingResponseWrapper wrappedResponse =
-            new ContentCachingResponseWrapper(httpServletResponse);
+                new ContentCachingResponseWrapper(httpServletResponse);
 
         filterChain.doFilter(wrappedRequest, wrappedResponse);
 
@@ -69,10 +71,10 @@ public class ApiLoggingFilter implements Filter {
 
             int httpStatus = httpServletResponse.getStatus();
             log.info(
-                "{} {} {}",
-                httpStatus,
-                wrappedRequest.getMethod(),
-                getRequestPath(httpServletRequest));
+                    "{} {} {}",
+                    httpStatus,
+                    wrappedRequest.getMethod(),
+                    getRequestPath(httpServletRequest));
             log.info("Request: {}", MDC.get("request_body"));
             log.info("Response: {}", MDC.get("response_body"));
         } finally {
@@ -83,11 +85,11 @@ public class ApiLoggingFilter implements Filter {
 
     private void handleRequest(ContentCachingRequestWrapper wrappedRequest) throws IOException {
         String requestBody =
-            new String(wrappedRequest.getContentAsByteArray(), StandardCharsets.UTF_8);
+                new String(wrappedRequest.getContentAsByteArray(), StandardCharsets.UTF_8);
         if (requestBody.isBlank()) {
             requestBody =
-                StreamUtils.copyToString(
-                    wrappedRequest.getInputStream(), StandardCharsets.UTF_8);
+                    StreamUtils.copyToString(
+                            wrappedRequest.getInputStream(), StandardCharsets.UTF_8);
         }
 
         buildMDC(wrappedRequest, requestBody);
@@ -95,13 +97,13 @@ public class ApiLoggingFilter implements Filter {
 
     private void handleResponse(ContentCachingResponseWrapper wrappedResponse) {
         String responseBody =
-            new String(wrappedResponse.getContentAsByteArray(), StandardCharsets.UTF_8);
+                new String(wrappedResponse.getContentAsByteArray(), StandardCharsets.UTF_8);
 
         buildMDC(wrappedResponse, responseBody);
     }
 
     private void buildMDC(HttpServletRequest request, String requestBody)
-        throws UnknownHostException {
+            throws UnknownHostException {
         MDC.put("server_ip_address", InetAddress.getLocalHost().getHostAddress());
         MDC.put("client_ip_address", getClientIpAddress(request));
         MDC.put("environment", getCurrentEnvironment());
@@ -142,9 +144,9 @@ public class ApiLoggingFilter implements Filter {
 
     private String getRequestPath(HttpServletRequest request) {
         return request.getScheme()
-            + "://"
-            + (request).getHeader("Host")
-            + request.getRequestURI()
-            + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
+                + "://"
+                + (request).getHeader("Host")
+                + request.getRequestURI()
+                + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
     }
 }

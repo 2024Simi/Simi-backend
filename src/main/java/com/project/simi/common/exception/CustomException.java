@@ -1,9 +1,9 @@
 package com.project.simi.common.exception;
 
-import com.project.simi.common.exception.code.ResultCodeProvider;
 import lombok.Getter;
 import lombok.ToString;
 
+import com.project.simi.common.exception.code.ResultCodeProvider;
 
 @Getter
 @ToString
@@ -26,25 +26,25 @@ public abstract class CustomException extends RuntimeException {
     }
 
     protected CustomException(
-        final ResultCodeProvider resultCode, final String specifiedErrorMessage) {
+            final ResultCodeProvider resultCode, final String specifiedErrorMessage) {
         super(resultCode.getMessage());
 
         this.resultCode =
-            new ResultCodeProvider() {
-                @Override
-                public String getMessage() {
-                    return specifiedErrorMessage;
-                }
-
-                @Override
-                public String getCode() {
-                    if (resultCode instanceof Enum<?>) {
-                        return ((Enum<?>) resultCode).name();
+                new ResultCodeProvider() {
+                    @Override
+                    public String getMessage() {
+                        return specifiedErrorMessage;
                     }
 
-                    return null;
-                }
-            };
+                    @Override
+                    public String getCode() {
+                        if (resultCode instanceof Enum<?>) {
+                            return ((Enum<?>) resultCode).name();
+                        }
+
+                        return null;
+                    }
+                };
         this.data = null;
     }
 
@@ -56,7 +56,7 @@ public abstract class CustomException extends RuntimeException {
     }
 
     protected CustomException(
-        final ResultCodeProvider resultCode, final Object data, final Throwable cause) {
+            final ResultCodeProvider resultCode, final Object data, final Throwable cause) {
         super(resultCode.getMessage(), cause);
 
         this.resultCode = resultCode;

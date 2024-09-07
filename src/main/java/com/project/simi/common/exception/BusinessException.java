@@ -1,6 +1,5 @@
 package com.project.simi.common.exception;
 
-
 import com.project.simi.common.exception.code.ExceptionCode;
 
 public class BusinessException extends CustomException {

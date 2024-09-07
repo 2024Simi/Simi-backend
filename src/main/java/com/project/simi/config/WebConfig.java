@@ -1,12 +1,13 @@
 package com.project.simi.config;
 
-import com.project.simi.filter.ApiLoggingFilter;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.project.simi.filter.ApiLoggingFilter;
 
 @RequiredArgsConstructor
 @Configuration
@@ -16,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public FilterRegistrationBean<ApiLoggingFilter> loggingFilter() {
         FilterRegistrationBean<ApiLoggingFilter> registrationBean =
-            new FilterRegistrationBean<>(apiLoggingFilter);
+                new FilterRegistrationBean<>(apiLoggingFilter);
         registrationBean.addUrlPatterns("/api/*");
 
         return registrationBean;
