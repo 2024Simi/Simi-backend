@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: simi
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL
+    username: sa
+    password: password
+    driver-class-name: org.h2.Driver
+  profiles:
+    active: local
