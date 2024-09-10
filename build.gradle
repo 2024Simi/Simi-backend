@@ -65,6 +65,7 @@ dependencies {
 	implementation 'com.diffplug.spotless:spotless-plugin-gradle:6.23.3'
 	// rest docs
 	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 
 
 }
