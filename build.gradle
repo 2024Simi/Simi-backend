@@ -88,3 +88,15 @@ spotless {
 		endWithNewline()
 	}
 }
+
+tasks.register('updateGitHooks', Copy) {
+	from new File(project.rootDir, 'scripts/pre-commit')
+	into new File(project.rootDir, '.git/hooks')
+}
+
+tasks.register('makeGitHooksExecutable', Exec) {
+	commandLine 'chmod', '+x', new File(project.rootDir, '.git/hooks/pre-commit').absolutePath
+	dependsOn updateGitHooks
+}
+
+compileJava.dependsOn makeGitHooksExecutable
