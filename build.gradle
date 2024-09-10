@@ -5,6 +5,7 @@ plugins {
 	id 'com.diffplug.spotless' version '6.23.3'
 	// aot
 	id 'org.springframework.boot.aot' version '3.3.3'
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 
 }
 
@@ -21,6 +22,7 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	asciidoctorExtensions
 }
 
 repositories {
@@ -61,6 +63,9 @@ dependencies {
 	implementation 'com.fasterxml.jackson.module:jackson-module-afterburner:2.15.0'
 	// spotless
 	implementation 'com.diffplug.spotless:spotless-plugin-gradle:6.23.3'
+	// rest docs
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
 
 }
 
@@ -100,3 +105,34 @@ tasks.register('makeGitHooksExecutable', Exec) {
 }
 
 compileJava.dependsOn makeGitHooksExecutable
+
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+asciidoctor {
+	configurations 'asciidoctorExtensions'
+	inputs.dir snippetsDir
+	sources {
+		include("**/index.adoc")
+	}
+	baseDirFollowsSourceFile()
+	dependsOn test
+}
+
+asciidoctor.doFirst {
+	delete file('src/main/resources/static/docs/index.html')
+}
+
+task copyRestDocument(type: Copy) {
+	dependsOn asciidoctor
+	from file("${asciidoctor.outputDir}")
+	into file("src/main/resources/static/docs")
+}
+
+bootJar {
+	dependsOn copyRestDocument
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+	from("src/main/resources/static/docs") {
+		into "BOOT-INF/classes/static/docs"
+	}
+}
