@@ -80,7 +80,7 @@ jobs:
           echo "${{ ARGOCD_REPOSITORY_URL }}"
           
           refBranch=$GITHUB_REF_NAME
-          tagName=${{ TAG_NAME }}
+          tagName=${{ steps.set-envs.outputs.TAG_NAME }}
           if [ $refBranch != 'main' ] && [ $refBranch != 'sandbox' ] && [ $refBranch != 'qa' ] && [[ $tagName != v* ]] && [[ $refBranch != 'prod' ]]; then
             echo ">>>>>>>>>>>>>>>>>>>> This Base branch is $refBranch, does not follow policy! <<<<<<<<<<<<<<<"
             exit 1
