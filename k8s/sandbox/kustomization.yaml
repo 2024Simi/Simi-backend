@@ -2,21 +2,21 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../base
+- ../base
 
 namespace: sandbox
 
 replicas:
-  - count: 1
-    name: simi-app-deploy
+- count: 1
+  name: simi-app-deploy
 images:
-  - name: DOCKER_IMAGE_PLACE_HOLDER
-    newName: sin.ocir.io/axccb0dejqgl/simi-app
-    newTag: latest
+- name: DOCKER_IMAGE_PLACE_HOLDER
+  newName: sin.ocir.io/axccb0dejqgl/simi
+  newTag: sandbox-20240911T121546UTC
 patches:
-  - patch: |-
-      - op: add
-        path: /spec/template/spec/tolerations
-        value: [ { key: "env", value: "sandbox", effect: "NoSchedule", operator: "Equal" } ]
-    target:
-      kind: Deployment
+- patch: |-
+    - op: add
+      path: /spec/template/spec/tolerations
+      value: [ { key: "env", value: "sandbox", effect: "NoSchedule", operator: "Equal" } ]
+  target:
+    kind: Deployment
