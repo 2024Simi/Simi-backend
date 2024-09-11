@@ -110,6 +110,7 @@ jobs:
               targetPath=${{ steps.set-envs.outputs.targetPath }}
 
 
+
               git config user.name "repository__$targetPath"
               git config user.email gudcks305@gmail.com
               git checkout main
