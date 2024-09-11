@@ -2,7 +2,7 @@ ARG JAVA_VERSION=21
 
 ARG JAR_PATH='./build/libs/simi-0.0.1-SNAPSHOT.jar'
 ARG DEST_PATH='/apps/simi.jar'
-FROM --platform=linux/amd64 amazoncorretto:${JAVA_VERSION}-alpine
+FROM --platform=linux/arm64 amazoncorretto:${JAVA_VERSION}-alpine
 
 RUN mkdir ./apps
 COPY ./build/resources/aot /apps/aot
