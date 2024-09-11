@@ -74,7 +74,7 @@ jobs:
       - name: Event Information
         run: |
           echo $GITHUB_REF_NAME
-          echo "${{ TAG_NAME }}"
+          echo ${{ steps.set-envs.outputs.TAG_NAME }}
           echo "${{ TARGET_PATH }}"
           echo "${{ REGISTRY_REPOSITORY_URI }}"
           echo "${{ ARGOCD_REPOSITORY_URL }}"
