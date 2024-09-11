@@ -1,0 +1,127 @@
+on:
+  push:
+    branches: [ "sandbox" ]
+
+jobs:
+  build:
+    runs-on: ['self-hosted']
+    if: "!contains(github.event.head_commit.message, '[ci skip]' )"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set env
+        id: set-envs
+        env:
+          K8S_KUSTOMIZATION_BASE_PATH: "k8s"
+          ARGOCD_URI: "https://argocd.fun-utils.com/applications"
+          REGISTRY_REPOSITORY_URI: "ocid1.containerrepo.oc1.ap-singapore-1.0.axccb0dejqgl.aaaaaaaaq7rtwua332vxhhdin7k72orfu3tapbibeaf7ohindgyutpg4trma"
+          # ECR REPO 를 만들고 나서 ECR REPO URI 를 넣어줘야 함 ARN test
+          # $GITHUB_REF_NAME : 브랜치 명
+          # 확인 중
+        run: |
+          if [ $GITHUB_REF_NAME = 'dev' ]; then 
+             PROFILE=sandbox
+          else
+             PROFILE=test
+          fi
+          
+          TAG_NAME="${PROFILE}-$(date +'%Y%m%dT%H%M%S%Z')"
+          ARGOCD_REPOSITORY_URL="${ARGOCD_URI}/simi-${PROFILE}" 
+          
+          echo "PROFILE: $PROFILE"
+          echo "K8S_KUSTOMIZATION_BASE_PATH: K8S_KUSTOMIZATION_BASE_PATH"
+          echo "TAG_NAME: $TAG_NAME"
+          echo "ARGOCD_REPOSITORY_URL: $ARGOCD_REPOSITORY_URL"
+          echo "REGISTRY_REPOSITORY_URI: $REGISTRY_REPOSITORY_URI"
+          
+          echo "PROFILE=$PROFILE" >> $GITHUB_OUTPUT
+          echo "K8S_KUSTOMIZATION_BASE_PATH=$K8S_KUSTOMIZATION_BASE_PATH" >> $GITHUB_OUTPUT
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "ARGOCD_REPOSITORY_URL=$ARGOCD_REPOSITORY_URL" >> $GITHUB_OUTPUT
+          echo "REGISTRY_REPOSITORY_URI=$REGISTRY_REPOSITORY_URI" >> $GITHUB_OUTPUT
+          echo "REF_BRANCH=$PROFILE" >> $GITHUB_OUTPUT
+
+      - name: Configure AWS credentials for AWS prod
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Docker login
+        uses: docker/login-action@v3
+        with:
+          registry: sin.ocir.io
+          username: ${{ secrets.OCI_REGISTRY_USERNAME }}
+          password: ${{ secrets.OCI_REGISTRY_PASSWORD }}
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+          # java aws
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: bootJar -Dspring.profiles.active=sandbox
+
+      - name: Build, tag, and push image
+        id: ecr
+        env:
+          REGISTRY_REPOSITORY_URI: ${{ steps.set-envs.outputs.REGISTRY_REPOSITORY_URI }}
+          TAG_NAME: ${{ steps.set-envs.outputs.TAG_NAME }}
+        run: |
+          docker buildx build \
+          --platform linux/arm64 \
+          -t $REGISTRY_REPOSITORY_URI:$TAG_NAME -t $REGISTRY_REPOSITORY_URI:latest .
+          docker push $REGISTRY_REPOSITORY_URI:$TAG_NAME
+      - name: Event Information
+        run: |
+          echo "${{ REF_BRANCH }}"
+          echo "${{ TAG_NAME }}"
+          echo "${{ TARGET_PATH }}"
+          echo "${{ REGISTRY_REPOSITORY_URI }}"
+          echo "${{ ARGOCD_REPOSITORY_URL }}"
+          
+          refBranch=${{ REF_BRANCH }}
+          tagName=${{ TAG_NAME }}
+          if [ $refBranch != 'main' ] && [ $refBranch != 'sandbox' ] && [ $refBranch != 'qa' ] && [[ $tagName != v* ]] && [[ $refBranch != 'prod' ]]; then
+            echo ">>>>>>>>>>>>>>>>>>>> This Base branch is $refBranch, does not follow policy! <<<<<<<<<<<<<<<"
+            exit 1
+          fi
+      - name: 'Setup Kustomize'
+        uses: imranismail/setup-kustomize@master
+
+      - run: |
+            if [[ ${{ github.event.client_payload.refBranch }} == v* ]]; then
+              refBranch=prod
+            else
+              refBranch=${{ github.event.client_payload.refBranch }}
+            fi
+            
+            echo $refBranch
+            
+            targetPath=${{ github.event.client_payload.targetPath }}
+            dockerImg="${{ github.event.client_payload.dockerImg }}"
+            cd $targetPath/$refBranch/
+            git pull --force
+            kustomize edit set image DOCKER_IMAGE_PLACE_HOLDER=$dockerImg
+
+      - name: Commit changes
+        uses: nick-fields/retry@v2
+        with:
+          timeout_seconds: 5
+          max_attempts: 10
+          command: |
+              refBranch=${{ steps.set-envs.outputs.REF_BRANCH }}
+              targetPath=${{ steps.set-envs.outputs.targetPath }}
+
+
+              git config user.name "repository__$targetPath"
+              git config user.email gudcks305@gmail.com
+              git add .
+              git commit -m "[$targetPath-$refBranch]update kustomize"
+              git pull --rebase
+              git push
