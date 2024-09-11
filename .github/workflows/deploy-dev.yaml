@@ -83,16 +83,16 @@ jobs:
         uses: imranismail/setup-kustomize@master
 
       - run: |
-            if [[ ${{ github.event.client_payload.refBranch }} == v* ]]; then
+            if [[ ${{ steps.set-envs.outputs.REF_BRANCH }} == v* ]]; then
               refBranch=prod
             else
-              refBranch=${{ github.event.client_payload.refBranch }}
+              refBranch=${{ steps.set-envs.outputs.REF_BRANCH }}
             fi
             
             echo $refBranch
             
-            targetPath=${{ github.event.client_payload.targetPath }}
-            dockerImg="${{ github.event.client_payload.dockerImg }}"
+            targetPath=${{ steps.set-envs.outputs.K8S_KUSTOMIZATION_BASE_PATH }}
+            dockerImg="${{ steps.set-envs.outputs.REGISTRY_REPOSITORY_URI }}:${{ steps.set-envs.outputs.TAG_NAME }}"
             cd $targetPath/$refBranch/
             git pull --force
             kustomize edit set image DOCKER_IMAGE_PLACE_HOLDER=$dockerImg
