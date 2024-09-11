@@ -70,8 +70,8 @@ jobs:
         run: |
           docker buildx build \
           --platform linux/arm64 \
-          -t $REGISTRY_REPOSITORY_URI:$TAG_NAME .
-          docker push $REGISTRY_REPOSITORY_URI:$TAG_NAME
+          -t $REGISTRY_REPOSITORY_URI:$TAG_NAME . \
+          --push
       - name: Event Information
         run: |
           refBranch=$GITHUB_REF_NAME
