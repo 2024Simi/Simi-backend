@@ -79,6 +79,9 @@ jobs:
             echo ">>>>>>>>>>>>>>>>>>>> This Base branch is $refBranch, does not follow policy! <<<<<<<<<<<<<<<"
             exit 1
           fi
+      - uses: actions/checkout@main
+        with:
+          token: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
       - name: 'Setup Kustomize'
         uses: imranismail/setup-kustomize@master
 
