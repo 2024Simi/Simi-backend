@@ -14,7 +14,7 @@ jobs:
         env:
           K8S_KUSTOMIZATION_BASE_PATH: "k8s"
           ARGOCD_URI: "https://argocd.fun-utils.com/applications"
-          REGISTRY_REPOSITORY_URI: "ocid1.containerrepo.oc1.ap-singapore-1.0.axccb0dejqgl.aaaaaaaaq7rtwua332vxhhdin7k72orfu3tapbibeaf7ohindgyutpg4trma"
+          REGISTRY_REPOSITORY_URI: "sin.ocir.io/axccb0dejqgl/simi"
           # ECR REPO 를 만들고 나서 ECR REPO URI 를 넣어줘야 함 ARN test
           # $GITHUB_REF_NAME : 브랜치 명
           # 확인 중
