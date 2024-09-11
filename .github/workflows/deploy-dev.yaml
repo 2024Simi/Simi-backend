@@ -64,12 +64,12 @@ jobs:
       - name: Build, tag, and push image
         id: ecr
         env:
-          REGISTRY_REPOSITORY_URI: "axccb0dejqgl:simi"
+          REGISTRY_REPOSITORY_URI: "sin.ocir.io/axccb0dejqgl/simi"
           TAG_NAME: ${{ steps.set-envs.outputs.TAG_NAME }}
         run: |
           docker build \
           --platform linux/arm64 \
-          -t $REGISTRY_REPOSITORY_URI:$TAG_NAME -t $REGISTRY_REPOSITORY_URI:latest .
+          -t $REGISTRY_REPOSITORY_URI:$TAG_NAME .
           docker push $REGISTRY_REPOSITORY_URI:$TAG_NAME
       - name: Event Information
         run: |
