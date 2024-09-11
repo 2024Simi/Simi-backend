@@ -73,14 +73,13 @@ jobs:
           docker push $REGISTRY_REPOSITORY_URI:$TAG_NAME
       - name: Event Information
         run: |
-          echo "REF_BRANCH=$PROFILE" >> $GITHUB_OUTPUT
-          echo "${{ REF_BRANCH }}"
+          echo $GITHUB_REF_NAME
           echo "${{ TAG_NAME }}"
           echo "${{ TARGET_PATH }}"
           echo "${{ REGISTRY_REPOSITORY_URI }}"
           echo "${{ ARGOCD_REPOSITORY_URL }}"
           
-          refBranch=${{ REF_BRANCH }}
+          refBranch=$GITHUB_REF_NAME
           tagName=${{ TAG_NAME }}
           if [ $refBranch != 'main' ] && [ $refBranch != 'sandbox' ] && [ $refBranch != 'qa' ] && [[ $tagName != v* ]] && [[ $refBranch != 'prod' ]]; then
             echo ">>>>>>>>>>>>>>>>>>>> This Base branch is $refBranch, does not follow policy! <<<<<<<<<<<<<<<"
