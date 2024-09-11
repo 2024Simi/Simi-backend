@@ -93,11 +93,11 @@ jobs:
             fi
             
             echo $refBranch
-            git checkout main
             targetPath=${{ steps.set-envs.outputs.K8S_KUSTOMIZATION_BASE_PATH }}
             dockerImg="${{ steps.set-envs.outputs.REGISTRY_REPOSITORY_URI }}:${{ steps.set-envs.outputs.TAG_NAME }}"
             cd $targetPath/$refBranch/
             git pull --force
+            git checkout origin/main
             kustomize edit set image DOCKER_IMAGE_PLACE_HOLDER=$dockerImg
 
       - name: Commit changes
