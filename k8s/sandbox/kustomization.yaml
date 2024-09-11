@@ -12,7 +12,7 @@ replicas:
 images:
 - name: DOCKER_IMAGE_PLACE_HOLDER
   newName: ocid1.containerrepo.oc1.ap-singapore-1.0.axccb0dejqgl.aaaaaaaaq7rtwua332vxhhdin7k72orfu3tapbibeaf7ohindgyutpg4trma
-  newTag: sandbox-20240911T115415UTC
+  newTag: sandbox-20240911T115556UTC
 patches:
 - patch: |-
     - op: add
