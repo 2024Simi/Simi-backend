@@ -112,6 +112,7 @@ jobs:
 
               git config user.name "repository__$targetPath"
               git config user.email gudcks305@gmail.com
+              git checkout main
               git add .
               git commit -m "[$targetPath-$refBranch]update kustomize"
               git pull --rebase
