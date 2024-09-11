@@ -73,12 +73,6 @@ jobs:
           docker push $REGISTRY_REPOSITORY_URI:$TAG_NAME
       - name: Event Information
         run: |
-          echo $GITHUB_REF_NAME
-          echo ${{ steps.set-envs.outputs.TAG_NAME }}
-          echo "${{ TARGET_PATH }}"
-          echo "${{ REGISTRY_REPOSITORY_URI }}"
-          echo "${{ ARGOCD_REPOSITORY_URL }}"
-          
           refBranch=$GITHUB_REF_NAME
           tagName=${{ steps.set-envs.outputs.TAG_NAME }}
           if [ $refBranch != 'main' ] && [ $refBranch != 'sandbox' ] && [ $refBranch != 'qa' ] && [[ $tagName != v* ]] && [[ $refBranch != 'prod' ]]; then
