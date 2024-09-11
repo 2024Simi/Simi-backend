@@ -73,6 +73,7 @@ jobs:
           docker push $REGISTRY_REPOSITORY_URI:$TAG_NAME
       - name: Event Information
         run: |
+          echo "REF_BRANCH=$PROFILE" >> $GITHUB_OUTPUT
           echo "${{ REF_BRANCH }}"
           echo "${{ TAG_NAME }}"
           echo "${{ TARGET_PATH }}"
