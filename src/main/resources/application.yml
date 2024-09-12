@@ -2,9 +2,26 @@ spring:
   application:
     name: simi
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL
-    username: sa
-    password: password
-    driver-class-name: org.h2.Driver
+    url: ${JDBC_DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      hikari:
+        maximum-pool-size: 5
+      dialect: org.hibernate.dialect.PostgreSQL10Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  properties: # Additional native properties to set on the JPA provider.
+    hibernate:
+      #show-sql: true                  # System.out 으로 출력
+      format_sql: true
   profiles:
     active: local
+
+
+logging:
+  level:                                        # 각 package 별로 로깅 레벨을 지정할 수 있다.
+    org.hibernate.type: trace                   # 콘솔차에 조건에 바인딩되는 값 및 조회 결과 출력
+    org.hibernate.SQL: debug                    # logger를 통해 하이버네이트 실행 SQL
+    org.hibernate.type.descriptor.sql: trace    # sql의 ? 값을 Parameter로 보여줌.
