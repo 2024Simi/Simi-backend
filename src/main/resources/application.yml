@@ -14,8 +14,6 @@ spring:
       hibernate:
         boot:
           allow_jdbc_metadata_access: false # Additional native properties to set on the JPA provider.
-  profiles:
-    active: local
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

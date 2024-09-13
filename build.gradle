@@ -138,6 +138,9 @@ bootJar {
 	}
 }
 
-tasks.withType(org.springframework.boot.gradle.tasks.aot.ProcessAot).configureEach {
-	args('--spring.profiles.active=sandbox,prod')
+processAot {
+	doFirst {
+		def profile = project.hasProperty('spring.profiles.active') ? project.getProperty('spring.profiles.active') : 'local'
+		args("--spring.profiles.active=${profile}")
+	}
 }
