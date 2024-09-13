@@ -137,3 +137,7 @@ bootJar {
 		into "BOOT-INF/classes/static/docs"
 	}
 }
+
+tasks.withType(org.springframework.boot.gradle.tasks.aot.ProcessAot).configureEach {
+	args('--spring.profiles.active=sandbox,prod')
+}

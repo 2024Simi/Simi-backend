@@ -1,21 +1,9 @@
 spring:
-  application:
-    name: simi
   datasource:
-    url: ${JDBC_DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
     hikari:
-      maximum-pool-size: 5
-    driver-class-name: org.postgresql.Driver
+      maximum-pool-size: 10
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate:
-        boot:
-          allow_jdbc_metadata_access: false # Additional native properties to set on the JPA provider.
-  profiles:
-    active: local
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
