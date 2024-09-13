@@ -137,3 +137,10 @@ bootJar {
 		into "BOOT-INF/classes/static/docs"
 	}
 }
+
+processAot {
+	doFirst {
+		def profile = project.hasProperty('spring.profiles.active') ? project.getProperty('spring.profiles.active') : 'local'
+		args("--spring.profiles.active=${profile}")
+	}
+}

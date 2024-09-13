@@ -4,7 +4,7 @@ on:
 
 jobs:
   build:
-    runs-on: ['self-hosted']
+    runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]' )"
     steps:
       - uses: actions/checkout@v4
@@ -14,7 +14,7 @@ jobs:
         env:
           K8S_KUSTOMIZATION_BASE_PATH: "k8s"
           ARGOCD_URI: "https://argocd.fun-utils.com/applications"
-          REGISTRY_REPOSITORY_URI: "ocid1.containerrepo.oc1.ap-singapore-1.0.axccb0dejqgl.aaaaaaaaq7rtwua332vxhhdin7k72orfu3tapbibeaf7ohindgyutpg4trma"
+          REGISTRY_REPOSITORY_URI: "sin.ocir.io/axccb0dejqgl/simi"
           # ECR REPO 를 만들고 나서 ECR REPO URI 를 넣어줘야 함 ARN test
           # $GITHUB_REF_NAME : 브랜치 명
           # 확인 중
@@ -60,47 +60,45 @@ jobs:
         uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
         with:
           arguments: bootJar -Dspring.profiles.active=sandbox
-
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Build, tag, and push image
         id: ecr
         env:
-          REGISTRY_REPOSITORY_URI: "axccb0dejqgl:simi"
+          REGISTRY_REPOSITORY_URI: "sin.ocir.io/axccb0dejqgl/simi"
           TAG_NAME: ${{ steps.set-envs.outputs.TAG_NAME }}
         run: |
-          docker build \
+          docker buildx build \
           --platform linux/arm64 \
-          -t $REGISTRY_REPOSITORY_URI:$TAG_NAME -t $REGISTRY_REPOSITORY_URI:latest .
-          docker push $REGISTRY_REPOSITORY_URI:$TAG_NAME
+          -t $REGISTRY_REPOSITORY_URI:$TAG_NAME . \
+          --push
       - name: Event Information
         run: |
-          echo "${{ REF_BRANCH }}"
-          echo "${{ TAG_NAME }}"
-          echo "${{ TARGET_PATH }}"
-          echo "${{ REGISTRY_REPOSITORY_URI }}"
-          echo "${{ ARGOCD_REPOSITORY_URL }}"
-          
-          refBranch=${{ REF_BRANCH }}
-          tagName=${{ TAG_NAME }}
+          refBranch=$GITHUB_REF_NAME
+          tagName=${{ steps.set-envs.outputs.TAG_NAME }}
           if [ $refBranch != 'main' ] && [ $refBranch != 'sandbox' ] && [ $refBranch != 'qa' ] && [[ $tagName != v* ]] && [[ $refBranch != 'prod' ]]; then
             echo ">>>>>>>>>>>>>>>>>>>> This Base branch is $refBranch, does not follow policy! <<<<<<<<<<<<<<<"
             exit 1
           fi
+      - uses: actions/checkout@main
+        with:
+          token: ${{ secrets.WORKFLOW_GITHUB_TOKEN }}
       - name: 'Setup Kustomize'
         uses: imranismail/setup-kustomize@master
 
       - run: |
-            if [[ ${{ github.event.client_payload.refBranch }} == v* ]]; then
+            if [[ ${{ steps.set-envs.outputs.REF_BRANCH }} == v* ]]; then
               refBranch=prod
             else
-              refBranch=${{ github.event.client_payload.refBranch }}
+              refBranch=${{ steps.set-envs.outputs.REF_BRANCH }}
             fi
             
             echo $refBranch
-            
-            targetPath=${{ github.event.client_payload.targetPath }}
-            dockerImg="${{ github.event.client_payload.dockerImg }}"
+            targetPath=${{ steps.set-envs.outputs.K8S_KUSTOMIZATION_BASE_PATH }}
+            dockerImg="${{ steps.set-envs.outputs.REGISTRY_REPOSITORY_URI }}:${{ steps.set-envs.outputs.TAG_NAME }}"
             cd $targetPath/$refBranch/
             git pull --force
+            git checkout origin/main
             kustomize edit set image DOCKER_IMAGE_PLACE_HOLDER=$dockerImg
 
       - name: Commit changes
@@ -113,8 +111,10 @@ jobs:
               targetPath=${{ steps.set-envs.outputs.targetPath }}
 
 
+
               git config user.name "repository__$targetPath"
               git config user.email gudcks305@gmail.com
+              git checkout main
               git add .
               git commit -m "[$targetPath-$refBranch]update kustomize"
               git pull --rebase
