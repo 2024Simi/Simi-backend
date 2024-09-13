@@ -6,5 +6,5 @@ resources:
   # - configmap.yaml
   - deployment.yaml
   - svc.yaml
-  # - secret.yaml
+  - secret.yaml
   # - sa.yaml%
