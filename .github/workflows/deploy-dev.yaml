@@ -59,7 +59,9 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
         with:
-          arguments: bootJar -Dspring.profiles.active=sandbox --no-daemon
+          arguments: bootJar
+        env:
+          SPRING_PROFILES_ACTIVE: sandbox
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Build, tag, and push image
