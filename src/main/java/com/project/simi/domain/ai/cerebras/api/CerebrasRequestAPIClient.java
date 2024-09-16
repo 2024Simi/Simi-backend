@@ -16,8 +16,7 @@ import com.project.simi.domain.ai.dto.ChatResponse;
 public class CerebrasRequestAPIClient {
 
     private static final String CEREBRAS_API_URL = "https://api.cerebras.ai/v1/chat/completions";
-    private static final RestClient.Builder restClientBuilder =
-            RestClient.builder().baseUrl(CEREBRAS_API_URL);
+    private static final RestClient CLIENT = RestClient.builder().baseUrl(CEREBRAS_API_URL).build();
     private final Executor executor;
 
     @Value("${ai.cerebras.token}")
@@ -30,9 +29,7 @@ public class CerebrasRequestAPIClient {
     public CompletableFuture<ChatResponse> getChatResponse(ChatRequest chatRequest) {
         return CompletableFuture.supplyAsync(
                 () ->
-                        restClientBuilder
-                                .build()
-                                .post()
+                        CLIENT.post()
                                 .body(chatRequest)
                                 .headers(
                                         headers -> {
