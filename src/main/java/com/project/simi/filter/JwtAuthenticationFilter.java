@@ -14,6 +14,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,16 +23,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.project.simi.auth.dto.AuthenticatedUser;
 import com.project.simi.auth.provider.JwtTokenProvider;
 import com.project.simi.common.exception.UnauthorizedException;
+import com.project.simi.user.domain.User;
+import com.project.simi.user.dto.RequestUser;
+import com.project.simi.user.repository.query.UserQueryRepository;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private final JwtTokenProvider jwtTokenProvider;
 
-    //    private final UserQueryRepository userQueryRepository;
+    private final UserQueryRepository userQueryRepository;
 
     @Override
     protected void doFilterInternal(
@@ -50,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 SecurityContextHolder.getContext()
                                         .setAuthentication(authentication);
 
-                                //                                buildMDC(authentication);
+                                buildMDC(authentication);
                             },
                             () -> {
                                 // TODO : 2024-02-08 16:04 토큰이 없는 경우 동작 처리 해야할까?
@@ -79,20 +85,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (NumberFormatException e) {
             throw new UnauthorizedException();
         }
-        /*
-        User user = userQueryRepository.getById(userId);
+        User user = userQueryRepository.getUserById(userId);
         AuthenticatedUser authenticatedUser = new AuthenticatedUser(user);
 
         return new UsernamePasswordAuthenticationToken(
-                authenticatedUser, null, authenticatedUser.getAuthorities());*/
-        return new UsernamePasswordAuthenticationToken(null, null, null);
+                authenticatedUser, null, authenticatedUser.getAuthorities());
     }
 
-    /* private void buildMDC(Authentication authentication) {
+    private void buildMDC(Authentication authentication) {
         if (authentication != null && authentication.getPrincipal() instanceof RequestUser user) {
-            MDC.put("user_id", user.getUserId().toString());
-            MDC.put("company_id", user.getCompanyId().toString());
+            MDC.put("user_id", user.getId().toString());
+            MDC.put("login_id", user.getLoginId());
             MDC.put("name", user.getName());
         }
-    }*/
+    }
 }

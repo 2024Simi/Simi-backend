@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.project.simi.common.exception.UnauthorizedException;
+import com.project.simi.user.domain.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -41,17 +42,9 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(signatureSecretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    /*public String generateAccessTokenValue(User user) {
+    public String generateAccessTokenValue(User user) {
         return Jwts.builder()
                 .subject(String.valueOf(user.getId()))
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + tokenExpiryInMilli))
-                .signWith(key)
-                .compact();
-    }*/
-    public String generateAccessTokenValue(String userId) {
-        return Jwts.builder()
-                .subject(String.valueOf(userId))
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + tokenExpiryInMilli))
                 .signWith(key)

@@ -58,9 +58,9 @@ public class SecurityConfig {
                                 /* swagger */
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
-                                "/v3/api-docs/**",
+                                "/v3/api-docs/**"
                                 /* external callback */
-                                // TODO : 2024-06-13 15:17 추후 토큰 인증으로 변경
-                                "/api/v1/callback/**");
+                                // TODO : 2024-06-13 15:17 추후 토큰 인증으로 변경;
+                                );
     }
 }
