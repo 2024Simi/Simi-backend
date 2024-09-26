@@ -29,12 +29,13 @@ import com.project.simi.domain.common.domain.AbstractJpaIdentityPersistable;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
-        name = "user",
+        name = "simi_user",
         indexes = {@jakarta.persistence.Index(name = "IDX_USER_LOGIN_ID", columnList = "login_id")})
 @AttributeOverride(name = "id", column = @Column(name = "user_id"))
 @Entity
 @SQLRestriction("deleted_at is null")
 public class User extends AbstractJpaIdentityPersistable {
+
     @Comment("로그인 ID")
     @Column(name = "login_id", length = 50, nullable = false, unique = true)
     private String loginId;
@@ -58,9 +59,11 @@ public class User extends AbstractJpaIdentityPersistable {
 
     @Convert(converter = StringToListConverter.class)
     @Comment("권한")
+    @Column(name = "authorities", length = 255, nullable = false)
     private List<AuthoriryEnum> authorities = new ArrayList<>();
 
     @Comment("소셜 로그인 제공자 또는 로컬 로그인")
+    @Column(name = "provider", length = 20, nullable = false)
     @Enumerated(value = EnumType.STRING)
     private AuthProviderEnum provider;
 
@@ -71,4 +74,24 @@ public class User extends AbstractJpaIdentityPersistable {
     @Comment("계정 정지 여부")
     @Column(name = "non_locked", nullable = false)
     private boolean NotExpired = true;
+
+    public static User createOf(
+            String loginId,
+            String password,
+            String profileImageUrl,
+            String name,
+            String nickname,
+            List<AuthoriryEnum> authorities,
+            AuthProviderEnum provider) {
+        User user = new User();
+        user.loginId = loginId;
+        user.password = password;
+        user.profileImageUrl = profileImageUrl;
+        user.name = name;
+        user.nickname = nickname;
+        user.authorities = authorities;
+        user.provider = provider;
+
+        return user;
+    }
 }

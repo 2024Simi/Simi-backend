@@ -1,6 +1,7 @@
 package com.project.simi.common.converter;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import jakarta.persistence.AttributeConverter;
@@ -18,6 +19,7 @@ public class StringToListConverter implements AttributeConverter<List<AuthoriryE
 
     @Override
     public List<AuthoriryEnum> convertToEntityAttribute(String dbData) {
-        return Stream.of(dbData.split(",")).map(AuthoriryEnum::valueOf).toList();
+        return Optional.of(Stream.of(dbData.split(",")).map(AuthoriryEnum::valueOf).toList())
+                .orElse(List.of());
     }
 }
