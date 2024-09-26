@@ -1,9 +1,10 @@
 package com.project.simi;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+@Disabled
 public class PasswordGenerate extends SuperIntegrationTest {
     @Autowired
     private PasswordEncoder passwordEncoder;

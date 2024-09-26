@@ -83,9 +83,9 @@ public class SuperIntegrationTest {
 
     }
 
-//    protected String createDefaultAuthentication() {
-//        return jwtTokenFactory.createDefaultAuthentication();
-//    }
+    protected String createDefaultAuthentication() {
+        return jwtTokenFactory.createDefaultAuthentication();
+    }
 
     protected FieldDescriptor[] commonResponseFields(FieldDescriptor... dataFields) {
         return buildResponseFields("data", dataFields);
