@@ -29,7 +29,9 @@ spring:
         enable_lazy_load_no_trans: true
         show_sql: true
         format_sql: true
-
+ai:
+  cerebras:
+    token: test
 
 
 
