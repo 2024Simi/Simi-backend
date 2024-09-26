@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.MDC;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -66,15 +67,18 @@ public class ApiLoggingFilter implements Filter {
         filterChain.doFilter(wrappedRequest, wrappedResponse);
 
         try {
+            StopWatch stopWatch = new StopWatch();
+            stopWatch.start();
             handleRequest(wrappedRequest);
             handleResponse(wrappedResponse);
-
+            stopWatch.stop();
             int httpStatus = httpServletResponse.getStatus();
             log.info(
-                    "{} {} {}",
+                    "{} {} {} {} ms",
                     httpStatus,
                     wrappedRequest.getMethod(),
-                    getRequestPath(httpServletRequest));
+                    getRequestPath(httpServletRequest),
+                    stopWatch.getTotalTimeMillis());
             log.info("Request: {}", MDC.get("request_body"));
             log.info("Response: {}", MDC.get("response_body"));
         } finally {
