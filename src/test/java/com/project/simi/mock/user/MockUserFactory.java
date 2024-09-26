@@ -8,20 +8,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @TestComponent
 public class MockUserFactory {
     @Autowired
     private UserJpaRepository userJpaRepository;
 
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean(name = "mockDefaultUser")
     public User mockDefaultUser() {
         return createMockUser(
             User.createOf(
-                "default",
-                "password",
+                "groot",
+                passwordEncoder.encode("password"),
                 "url",
                 "",
                 "",

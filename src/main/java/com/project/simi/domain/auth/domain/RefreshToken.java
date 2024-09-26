@@ -45,7 +45,7 @@ public class RefreshToken {
     private User user;
 
     @Comment("리프레시 토큰값")
-    @Column(name = "refresh_token_value", length = 80, nullable = false)
+    @Column(name = "refresh_token_value", length = 255, nullable = false)
     private String refreshTokenValue;
 
     @Comment("발급일시")

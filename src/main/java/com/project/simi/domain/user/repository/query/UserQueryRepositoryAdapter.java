@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Repository;
 
+import com.project.simi.domain.user.domain.QUser;
 import com.project.simi.domain.user.domain.User;
-import com.project.simi.user.domain.QUser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Repository
