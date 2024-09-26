@@ -1,9 +1,9 @@
 package com.project.simi.mock.user;
 
-import com.project.simi.auth.enums.AuthProviderEnum;
-import com.project.simi.auth.enums.AuthoriryEnum;
-import com.project.simi.user.domain.User;
-import com.project.simi.user.repository.query.UserJpaRepository;
+import com.project.simi.domain.auth.enums.AuthProviderEnum;
+import com.project.simi.domain.auth.enums.AuthoriryEnum;
+import com.project.simi.domain.user.domain.User;
+import com.project.simi.domain.user.repository.query.UserJpaRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestComponent;

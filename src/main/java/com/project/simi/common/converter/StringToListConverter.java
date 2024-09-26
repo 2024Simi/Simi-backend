@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-import com.project.simi.auth.enums.AuthoriryEnum;
+import com.project.simi.domain.auth.enums.AuthoriryEnum;
 
 @Converter
 public class StringToListConverter implements AttributeConverter<List<AuthoriryEnum>, String> {

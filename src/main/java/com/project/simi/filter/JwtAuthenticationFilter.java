@@ -23,12 +23,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.project.simi.auth.dto.AuthenticatedUser;
-import com.project.simi.auth.provider.JwtTokenProvider;
 import com.project.simi.common.exception.UnauthorizedException;
-import com.project.simi.user.domain.User;
-import com.project.simi.user.dto.RequestUser;
-import com.project.simi.user.repository.query.UserQueryRepository;
+import com.project.simi.domain.auth.dto.AuthenticatedUser;
+import com.project.simi.domain.auth.provider.JwtTokenProvider;
+import com.project.simi.domain.user.domain.User;
+import com.project.simi.domain.user.dto.RequestUser;
+import com.project.simi.domain.user.repository.query.UserQueryRepository;
 
 @Slf4j
 @Component

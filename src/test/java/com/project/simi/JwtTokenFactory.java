@@ -1,7 +1,7 @@
 package com.project.simi;
 
-import com.project.simi.auth.provider.JwtTokenProvider;
-import com.project.simi.user.domain.User;
+import com.project.simi.domain.auth.provider.JwtTokenProvider;
+import com.project.simi.domain.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.TestComponent;
