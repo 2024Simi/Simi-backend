@@ -28,3 +28,12 @@ logging:
 ai:
   cerebras:
     token: ${CEREBRAS_API_KEY}
+
+security:
+  access-token:
+    expiry-in-milli: 900000
+    jwt-secret-key: "583-05823jkl;jlk023'2jdslga,e/kj3oi25902fhkjweh;"
+  refresh-token:
+    length-byte: 64
+    expiry-value: 1
+    expiry-unit: DAYS

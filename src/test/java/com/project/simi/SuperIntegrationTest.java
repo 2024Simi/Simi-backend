@@ -1,4 +1,4 @@
-package com.project;
+package com.project.simi;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -7,6 +7,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -48,10 +49,8 @@ public class SuperIntegrationTest {
     @Autowired
     private WebApplicationContext context;
 
-/*
     @Autowired
     protected JwtTokenFactory jwtTokenFactory;
-*/
 
     protected MockMvc mvc;
     protected final ObjectMapper objectMapper = new ObjectMapper();
@@ -68,7 +67,7 @@ public class SuperIntegrationTest {
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(documentationConfiguration(restDocumentation))
-//                .apply(springSecurity())
+                .apply(springSecurity())
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))
                 .apply(documentationConfiguration(restDocumentation)
                         .operationPreprocessors()
@@ -84,9 +83,9 @@ public class SuperIntegrationTest {
 
     }
 
-//    protected String createDefaultAuthentication() {
-//        return jwtTokenFactory.createDefaultAuthentication();
-//    }
+    protected String createDefaultAuthentication() {
+        return jwtTokenFactory.createDefaultAuthentication();
+    }
 
     protected FieldDescriptor[] commonResponseFields(FieldDescriptor... dataFields) {
         return buildResponseFields("data", dataFields);

@@ -21,11 +21,11 @@ spec:
           image: DOCKER_IMAGE_PLACE_HOLDER
           imagePullPolicy: IfNotPresent
           
-          # envFrom:
+          envFrom:
           #   - configMapRef:
           #       name: simi-appr-configmap
-          #   - secretRef:
-          #       name: simi-app-secret
+           - secretRef:
+               name: simi-app-secret
           resources:
             limits:
               cpu: 500m
