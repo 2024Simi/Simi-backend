@@ -2,7 +2,7 @@ spring:
   application:
     name: simi
   datasource:
-    url: ${JDBC_DB_URL}
+    url: jdbc:postgresql://140.83.54.143:55342/simi_dev
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     hikari:
