@@ -12,7 +12,7 @@ replicas:
 images:
 - name: DOCKER_IMAGE_PLACE_HOLDER
   newName: sin.ocir.io/axccb0dejqgl/simi
-  newTag: sandbox-20240929T120144UTC
+  newTag: sandbox-20241001T080820UTC
 patches:
 - patch: |-
     - op: add
