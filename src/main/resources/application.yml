@@ -3,8 +3,8 @@ spring:
     name: simi
   datasource:
     url: jdbc:postgresql://140.83.54.143:55342/simi_dev
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: simi_user
+    password: simi240911
     hikari:
       maximum-pool-size: 5
     driver-class-name: org.postgresql.Driver
