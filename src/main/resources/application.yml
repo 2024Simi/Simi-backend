@@ -23,6 +23,17 @@ spring:
 logging:
   level: # 각 package 별로 로깅 레벨을 지정할 수 있다.
     org.hibernate.type.descriptor.sql: trace    # sql의 ? 값을 Parameter로 보여줌.
+
+
 ai:
   cerebras:
     token: ${CEREBRAS_API_KEY}
+
+security:
+  access-token:
+    expiry-in-milli: 900000
+    jwt-secret-key: "583-05823jkl;jlk023'2jdslga,e/kj3oi25902fhkjweh;"
+  refresh-token:
+    length-byte: 64
+    expiry-value: 1
+    expiry-unit: DAYS
