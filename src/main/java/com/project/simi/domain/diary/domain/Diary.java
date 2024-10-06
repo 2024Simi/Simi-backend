@@ -41,7 +41,7 @@ public class Diary extends AbstractJpaIdentityPersistable {
     @Column(name = "empathy_response", length = 255, nullable = false)
     private String empathyResponse;
 
-    public Diary createOf(
+    public static Diary createOf(
             String episode,
             String thoughtOfEpisode,
             String emotionOfEpisode,
