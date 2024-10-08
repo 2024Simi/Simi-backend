@@ -14,7 +14,7 @@ public class DiaryCommandRepositoryAdapter implements DiaryCommandRepository {
     private final DiaryJpaRepository diaryJpaRepository;
 
     @Override
-    public Diary save(Diary of) {
-        return diaryJpaRepository.save(of);
+    public Diary save(Diary diary) {
+        return diaryJpaRepository.save(diary);
     }
 }
