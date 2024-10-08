@@ -2,6 +2,8 @@ package com.project.simi.domain.diary.service;
 
 import lombok.RequiredArgsConstructor;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.project.simi.domain.diary.domain.Diary;
@@ -9,6 +11,7 @@ import com.project.simi.domain.diary.dto.DiaryDto.DiaryRequest;
 import com.project.simi.domain.diary.repository.command.DiaryCommandRepository;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class DiaryService {
     private final DiaryCommandRepository diaryCommandRepository;
