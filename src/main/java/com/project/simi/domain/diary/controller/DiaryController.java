@@ -14,7 +14,7 @@ import com.project.simi.domain.diary.service.DiaryService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/*")
+@RequestMapping("api/v1/")
 public class DiaryController {
     private final DiaryService diaryService;
 
