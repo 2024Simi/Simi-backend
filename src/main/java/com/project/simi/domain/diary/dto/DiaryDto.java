@@ -7,4 +7,6 @@ public class DiaryDto {
             String emotionOfEpisode,
             String resultOfEpisode,
             String empathyResponse) {}
+
+    public record DiaryCreateResponse(Long diaryId, String empathyResponse) {}
 }
