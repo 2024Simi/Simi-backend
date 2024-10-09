@@ -38,4 +38,9 @@ public class AuthController {
 
         return ApiResult.ok();
     }
+
+    @PostMapping("/refresh")
+    public ApiResult<Response> refresh(@RequestBody @Valid LoginDto.RefreshRequest refreshRequest) {
+        return ApiResult.ok(loginService.refresh(refreshRequest));
+    }
 }

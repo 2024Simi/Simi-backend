@@ -16,12 +16,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.project.simi.SuperIntegrationTest;
+import com.project.simi.domain.auth.domain.RefreshToken;
 import com.project.simi.domain.auth.dto.LoginDto;
 import com.project.simi.domain.auth.dto.LogoutDto;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 class LoginTest extends SuperIntegrationTest {
+
+    @Autowired
+    @Qualifier("mockRefreshToken")
+    private RefreshToken mockRefreshToken;
     @Test
     void login() throws Exception {
         LoginDto.Request request = new LoginDto.Request("groot", "password");
@@ -74,4 +81,34 @@ class LoginTest extends SuperIntegrationTest {
                         )
                 ));
     }
+
+    @Test
+    void refresh() throws Exception {
+        LoginDto.RefreshRequest request = new LoginDto.RefreshRequest(mockRefreshToken.getRefreshTokenValue());
+
+        mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/v1/refresh")
+                .header(ACCEPT, APPLICATION_JSON_VALUE)
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(request))
+                .characterEncoding("utf-8"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("{ClassName}" + "/" + "{methodName}",
+                requestHeaders(
+                    headerWithName(ACCEPT).description("accept")
+                ),
+                requestFields(
+                    fieldWithPath("refreshToken").type(STRING).description("refresh token")
+                ),
+                responseFields(
+                    commonResponseFields(
+                        fieldWithPath("accessToken").type(STRING).description("access token"),
+                        fieldWithPath("refreshToken").type(STRING).description("refresh token"),
+                        fieldWithPath("userId").type(NUMBER).description("user id")
+                    )
+                )
+            ));
+    }
+
 }
