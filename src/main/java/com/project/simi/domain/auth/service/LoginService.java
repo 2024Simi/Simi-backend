@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.project.simi.common.exception.BusinessException;
 import com.project.simi.common.exception.code.ExceptionCode;
+import com.project.simi.domain.auth.domain.RefreshToken;
+import com.project.simi.domain.auth.dto.LoginDto.RefreshRequest;
 import com.project.simi.domain.auth.dto.LoginDto.Request;
 import com.project.simi.domain.auth.dto.LoginDto.Response;
 import com.project.simi.domain.auth.provider.JwtTokenProvider;
+import com.project.simi.domain.auth.repository.RefreshTokenJpaRepository;
 import com.project.simi.domain.user.domain.User;
 import com.project.simi.domain.user.repository.query.UserQueryRepository;
 
@@ -23,6 +26,7 @@ public class LoginService {
     private final UserQueryRepository userQueryRepository;
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenJpaRepository refreshTokenJpaRepository;
 
     public Response login(Request request) {
         User user =
@@ -49,5 +53,19 @@ public class LoginService {
 
     public void logout(Long userId, String refreshTokenValue) {
         refreshTokenService.delete(userId, refreshTokenValue);
+    }
+
+    public Response refresh(RefreshRequest refreshRequest) {
+        RefreshToken verifiedToken =
+                refreshTokenService.getVerifiedRefreshToken(refreshRequest.refreshToken());
+        User user = verifiedToken.getUser();
+
+        refreshTokenService.delete(user.getId(), verifiedToken.getRefreshTokenValue());
+
+        String accessTokenValue = jwtTokenProvider.generateAccessTokenValue(user);
+        String newRefreshTokenValue =
+                refreshTokenService.createAndSaveRefreshToken(user).getRefreshTokenValue();
+
+        return new Response(accessTokenValue, newRefreshTokenValue, user.getId());
     }
 }
