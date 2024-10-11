@@ -13,12 +13,14 @@ import com.project.simi.domain.ai.cerebras.api.CerebrasRequestAPIClient;
 import com.project.simi.domain.ai.dto.ChatMessage;
 import com.project.simi.domain.ai.dto.ChatRequest;
 import com.project.simi.domain.ai.dto.ChatResponse;
+import com.project.simi.domain.ai.service.LLMRequestService;
 
 @RestController
 @RequestMapping("/api/v1/test")
 @RequiredArgsConstructor
 public class TestController {
     private final CerebrasRequestAPIClient cerebrasRequestAPIClient;
+    private final LLMRequestService llmRequestService;
 
     @GetMapping
     public String test() {
@@ -52,5 +54,11 @@ public class TestController {
                         1.0,
                         1000);
         return cerebrasRequestAPIClient.getChatResponse(request).join();
+    }
+
+    @PostMapping("/chat/completions-prompts")
+    public String testChatPrompts() {
+        return llmRequestService.requestLLM(
+                "오늘은 유난히 힘든 하루였다. 아침부터 모든 게 어긋나는 느낌이었다. 무심코 올려다본 하늘은 흐리고, 내 마음도 그 하늘처럼 무거웠다. 사람들이 웃고 떠들며 지나가지만, 그 속에서 나는 혼자인 것 같았다. 작은 일에도 눈물이 날 것 같고, 아무도 나를 이해하지 못하는 것 같아서 더 외롭고 슬펐다. 평소엔 괜찮을 것 같은 일들도 오늘은 더 크게 다가왔다. 어딘가 잘못된 것 같은 느낌이 나를 짓눌렀다. 괜히 울컥하는 마음에 혼자 눈물을 훔치고, 괜찮다고 스스로를 다독여보지만, 슬픔은 쉽게 가시지 않았다.");
     }
 }

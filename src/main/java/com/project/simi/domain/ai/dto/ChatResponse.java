@@ -1,6 +1,7 @@
 package com.project.simi.domain.ai.dto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -64,5 +65,11 @@ public class ChatResponse {
 
         private int index;
         private ChatMessage message;
+    }
+
+    public String getAllContents() {
+        return choices.stream()
+                .map(choice -> choice.getMessage().getContent())
+                .collect(Collectors.joining());
     }
 }

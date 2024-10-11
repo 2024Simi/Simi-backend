@@ -1,5 +1,9 @@
 package com.project.simi.domain.ai.repository.adapter;
 
+import static com.project.simi.domain.ai.domain.QAIPrompt.aIPrompt;
+
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Repository;
@@ -20,5 +24,17 @@ public class AIPromptRepositoryAdapter
     @Override
     public AIPrompt save(AIPrompt aiPrompt) {
         return jpaRepository.save(aiPrompt);
+    }
+
+    @Override
+    public AIPrompt findDefaultPrompt() {
+        return Optional.ofNullable(
+                        queryFactory
+                                .selectFrom(aIPrompt)
+                                .where(aIPrompt.isDefault.isTrue())
+                                .fetchOne())
+                .orElseThrow(
+                        // TODO : Exception 처리
+                        () -> new IllegalArgumentException("Default prompt not found"));
     }
 }
