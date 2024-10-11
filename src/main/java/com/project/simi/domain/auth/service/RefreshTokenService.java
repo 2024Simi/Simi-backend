@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.simi.common.exception.BusinessException;
+import com.project.simi.common.exception.code.ExceptionCode;
 import com.project.simi.domain.auth.domain.RefreshToken;
 import com.project.simi.domain.auth.repository.command.RefreshTokenCommandRepository;
 import com.project.simi.domain.auth.repository.query.RefreshTokenQueryRepository;
@@ -78,5 +80,11 @@ public class RefreshTokenService {
         refreshTokenQueryRepository
                 .findByUserIdAndRefreshTokenValue(userId, refreshTokenValue)
                 .ifPresent(RefreshToken::expireRefreshToken);
+    }
+
+    public RefreshToken getVerifiedRefreshToken(String refreshToken) {
+        return refreshTokenQueryRepository
+                .findByRefreshTokenValue(refreshToken)
+                .orElseThrow(() -> new BusinessException(ExceptionCode.INVALID_REFRESH_TOKEN));
     }
 }
