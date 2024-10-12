@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -30,8 +31,9 @@ public class Diary extends AbstractJpaIdentityPersistable {
     private String thoughtOfEpisode;
 
     @Comment("감정")
+    @Convert(converter = EmotionConverter.class)
     @Column(name = "emotion_of_episode", length = 255, nullable = false)
-    private String emotionOfEpisode;
+    private Emotion emotionOfEpisode;
 
     @Comment("결과")
     @Column(name = "result_of_episode", length = 255, nullable = false)
