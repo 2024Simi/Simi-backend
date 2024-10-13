@@ -6,11 +6,11 @@ public class DiaryDto {
     public record DiaryRequest(
             String episode,
             String thoughtOfEpisode,
-            EmotionDto emotionOfEpisode,
+            EmotionOfEpisodeDto emotionOfEpisode,
             String resultOfEpisode,
             String empathyResponse) {}
 
     public record DiaryCreateResponse(Long diaryId, String empathyResponse) {}
 
-    public record EmotionDto(String type, List<String> details) {}
+    public record EmotionOfEpisodeDto(String type, List<String> details) {}
 }

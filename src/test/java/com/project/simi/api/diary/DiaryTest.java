@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.project.simi.SuperIntegrationTest;
 import com.project.simi.domain.diary.dto.DiaryDto;
+import com.project.simi.domain.diary.dto.DiaryDto.EmotionOfEpisodeDto;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -28,7 +29,7 @@ class DiaryTest extends SuperIntegrationTest {
         DiaryDto.DiaryRequest request = new DiaryDto.DiaryRequest(
                 "사건",
                 "생각",
-                new DiaryDto.EmotionDto("기쁨", List.of("행복", "즐거움")),
+                new EmotionOfEpisodeDto("기쁨", List.of("행복", "즐거움")),
                 "결과",
                 "GPT의 한마디"
         );
