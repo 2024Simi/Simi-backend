@@ -5,4 +5,4 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record EmotionOfEpisode(
-        @JsonProperty("type") String type, @JsonProperty("details") List<String> details) {}
+        @JsonProperty("type") EmotionType type, @JsonProperty("details") List<String> details) {}
