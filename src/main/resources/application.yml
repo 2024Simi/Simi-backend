@@ -37,3 +37,6 @@ security:
     length-byte: 64
     expiry-value: 1
     expiry-unit: DAYS
+
+springdoc:
+  use-fqn: true
