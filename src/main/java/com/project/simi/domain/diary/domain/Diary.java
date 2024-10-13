@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.Comment;
 
 import com.project.simi.domain.common.domain.AbstractJpaIdentityPersistable;
-import com.project.simi.domain.diary.domain.converter.EmotionConverter;
+import com.project.simi.domain.diary.domain.converter.EmotionOfEpisodeConverter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,9 +32,9 @@ public class Diary extends AbstractJpaIdentityPersistable {
     private String thoughtOfEpisode;
 
     @Comment("감정")
-    @Convert(converter = EmotionConverter.class)
+    @Convert(converter = EmotionOfEpisodeConverter.class)
     @Column(name = "emotion_of_episode", length = 255, nullable = false)
-    private Emotion emotionOfEpisode;
+    private EmotionOfEpisode emotionOfEpisode;
 
     @Comment("결과")
     @Column(name = "result_of_episode", length = 255, nullable = false)
@@ -47,7 +47,7 @@ public class Diary extends AbstractJpaIdentityPersistable {
     public static Diary createOf(
             String episode,
             String thoughtOfEpisode,
-            Emotion emotionOfEpisode,
+            EmotionOfEpisode emotionOfEpisode,
             String resultOfEpisode,
             String empathyResponse) {
         Diary diary = new Diary();
