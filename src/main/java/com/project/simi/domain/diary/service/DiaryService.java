@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.project.simi.domain.diary.domain.Diary;
+import com.project.simi.domain.diary.domain.Emotion;
 import com.project.simi.domain.diary.dto.DiaryDto.DiaryCreateResponse;
 import com.project.simi.domain.diary.dto.DiaryDto.DiaryRequest;
 import com.project.simi.domain.diary.repository.command.DiaryCommandRepository;
@@ -28,7 +29,9 @@ public class DiaryService {
                                 Diary.createOf(
                                         request.episode(),
                                         request.thoughtOfEpisode(),
-                                        request.emotionOfEpisode(),
+                                        new Emotion(
+                                                request.emotionOfEpisode().type(),
+                                                request.emotionOfEpisode().details()),
                                         request.resultOfEpisode(),
                                         empathyResponse))
                         .getId();

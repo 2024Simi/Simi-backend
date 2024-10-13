@@ -4,11 +4,13 @@ import java.util.List;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Getter
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Emotion {
     @JsonProperty("type")
     private String type; // 감정의 유형
