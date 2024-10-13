@@ -58,8 +58,8 @@ class DiaryTest extends SuperIntegrationTest {
                         ),
                         responseFields(
                                 commonResponseFields(
-                                        fieldWithPath("data.diaryId").type(NUMBER).description("저장된 다이어리 ID"),
-                                        fieldWithPath("data.empathyResponse").type(STRING).description("지피티 결과")
+                                        fieldWithPath("diaryId").type(NUMBER).description("저장된 다이어리 ID"),
+                                        fieldWithPath("empathyResponse").type(STRING).description("지피티 결과")
                                 )
                         )
                 ));
