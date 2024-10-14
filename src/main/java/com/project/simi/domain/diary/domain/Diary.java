@@ -58,4 +58,21 @@ public class Diary extends AbstractJpaIdentityPersistable {
         diary.empathyResponse = empathyResponse;
         return diary;
     }
+
+    public static Diary createOf(
+            String episode,
+            String thoughtOfEpisode,
+            EmotionOfEpisode emotionOfEpisode,
+            String resultOfEpisode,
+            String empathyResponse,
+            Long createdBy) {
+        Diary diary = new Diary();
+        diary.episode = episode;
+        diary.thoughtOfEpisode = thoughtOfEpisode;
+        diary.emotionOfEpisode = emotionOfEpisode;
+        diary.resultOfEpisode = resultOfEpisode;
+        diary.empathyResponse = empathyResponse;
+        diary.createdBy = createdBy;
+        return diary;
+    }
 }

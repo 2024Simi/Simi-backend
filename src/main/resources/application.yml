@@ -20,11 +20,6 @@ spring:
     static-path-pattern: /static/**
 
 
-logging:
-  level: # 각 package 별로 로깅 레벨을 지정할 수 있다.
-    org.hibernate.type.descriptor.sql: trace    # sql의 ? 값을 Parameter로 보여줌.
-
-
 ai:
   cerebras:
     token: ${CEREBRAS_API_KEY}
@@ -40,3 +35,8 @@ security:
 
 springdoc:
   use-fqn: true
+
+logging:
+  level:
+    root: INFO
+    p6spy: DEBUG
