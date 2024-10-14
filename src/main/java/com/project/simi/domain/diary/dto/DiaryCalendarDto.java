@@ -16,9 +16,6 @@ public class DiaryCalendarDto {
 
     private Long diaryId;
 
-    //    private String emotionType;
-    //    private String episodeOfSummary;
-
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", timezone = "Asia/Seoul")
     private Instant createdAt;
 }

@@ -27,7 +27,7 @@ public class MockDiaryFactory extends SuperIntegrationTest {
             Diary.createOf(
                 "episode",
                 "thoughtOfEpisode",
-                new EmotionOfEpisode(EmotionType.ANGRY, List.of("details")),
+                List.of(new EmotionOfEpisode(EmotionType.ANGRY, List.of("details"))),
                 "resultOfEpisode",
                 "empathyResponse",
                 mockDefaultUser.getId()

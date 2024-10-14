@@ -1,5 +1,7 @@
 package com.project.simi.domain.diary.domain;
 
+import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,14 +9,14 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.Type;
 
 import com.project.simi.domain.common.domain.AbstractJpaIdentityPersistable;
-import com.project.simi.domain.diary.domain.converter.EmotionOfEpisodeConverter;
+import com.project.simi.domain.diary.domain.converter.EmotionOfEpisodesJsonType;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -23,6 +25,7 @@ import com.project.simi.domain.diary.domain.converter.EmotionOfEpisodeConverter;
 @AttributeOverride(name = "id", column = @Column(name = "diary_id"))
 @Entity
 public class Diary extends AbstractJpaIdentityPersistable {
+
     @Comment("사건")
     @Column(name = "episode", length = 255, nullable = false)
     private String episode;
@@ -32,9 +35,9 @@ public class Diary extends AbstractJpaIdentityPersistable {
     private String thoughtOfEpisode;
 
     @Comment("감정")
-    @Convert(converter = EmotionOfEpisodeConverter.class)
-    @Column(name = "emotion_of_episode", length = 255, nullable = false)
-    private EmotionOfEpisode emotionOfEpisode;
+    @Type(EmotionOfEpisodesJsonType.class)
+    @Column(name = "emotion_of_episodes", columnDefinition = "jsonb", nullable = false)
+    private EmotionOfEpisodes emotionOfEpisodes;
 
     @Comment("결과")
     @Column(name = "result_of_episode", length = 255, nullable = false)
@@ -47,13 +50,13 @@ public class Diary extends AbstractJpaIdentityPersistable {
     public static Diary createOf(
             String episode,
             String thoughtOfEpisode,
-            EmotionOfEpisode emotionOfEpisode,
+            List<EmotionOfEpisode> emotionOfEpisodes,
             String resultOfEpisode,
             String empathyResponse) {
         Diary diary = new Diary();
         diary.episode = episode;
         diary.thoughtOfEpisode = thoughtOfEpisode;
-        diary.emotionOfEpisode = emotionOfEpisode;
+        diary.emotionOfEpisodes = new EmotionOfEpisodes(emotionOfEpisodes);
         diary.resultOfEpisode = resultOfEpisode;
         diary.empathyResponse = empathyResponse;
         return diary;
@@ -62,14 +65,14 @@ public class Diary extends AbstractJpaIdentityPersistable {
     public static Diary createOf(
             String episode,
             String thoughtOfEpisode,
-            EmotionOfEpisode emotionOfEpisode,
+            List<EmotionOfEpisode> emotionOfEpisodes,
             String resultOfEpisode,
             String empathyResponse,
             Long createdBy) {
         Diary diary = new Diary();
         diary.episode = episode;
         diary.thoughtOfEpisode = thoughtOfEpisode;
-        diary.emotionOfEpisode = emotionOfEpisode;
+        diary.emotionOfEpisodes = new EmotionOfEpisodes(emotionOfEpisodes);
         diary.resultOfEpisode = resultOfEpisode;
         diary.empathyResponse = empathyResponse;
         diary.createdBy = createdBy;

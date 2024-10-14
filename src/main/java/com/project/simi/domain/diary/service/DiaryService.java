@@ -15,6 +15,7 @@ import com.project.simi.domain.diary.domain.EmotionType;
 import com.project.simi.domain.diary.dto.DiaryCalendarDto;
 import com.project.simi.domain.diary.dto.DiaryDto.DiaryCreateResponse;
 import com.project.simi.domain.diary.dto.DiaryDto.DiaryRequest;
+import com.project.simi.domain.diary.dto.DiaryDto.EmotionOfEpisodeDto;
 import com.project.simi.domain.diary.repository.command.DiaryCommandRepository;
 import com.project.simi.domain.diary.repository.command.DiaryQueryRepository;
 import com.project.simi.domain.user.dto.RequestUser;
@@ -41,16 +42,16 @@ public class DiaryService {
                         Diary.createOf(
                                 request.episode(),
                                 request.thoughtOfEpisode(),
-                                createEmotionOfEpisode(request),
+                                request.emotionOfEpisodes().stream()
+                                        .map(this::createEmotionOfEpisode)
+                                        .toList(),
                                 request.resultOfEpisode(),
                                 empathyResponse))
                 .getId();
     }
 
-    private EmotionOfEpisode createEmotionOfEpisode(DiaryRequest request) {
-        return new EmotionOfEpisode(
-                EmotionType.valueOf(request.emotionOfEpisode().type()),
-                request.emotionOfEpisode().details());
+    private EmotionOfEpisode createEmotionOfEpisode(EmotionOfEpisodeDto request) {
+        return new EmotionOfEpisode(EmotionType.valueOf(request.type()), request.details());
     }
 
     public List<DiaryCalendarDto> getDiariesByDate(

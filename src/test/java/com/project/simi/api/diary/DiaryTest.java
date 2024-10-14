@@ -29,7 +29,7 @@ class DiaryTest extends SuperIntegrationTest {
         DiaryDto.DiaryRequest request = new DiaryDto.DiaryRequest(
                 "사건",
                 "생각",
-                new EmotionOfEpisodeDto("HAPPY", List.of("행복", "즐거움")),
+                List.of(new EmotionOfEpisodeDto("HAPPY", List.of("행복", "즐거움"))),
                 "결과",
                 "GPT의 한마디"
         );
@@ -52,8 +52,8 @@ class DiaryTest extends SuperIntegrationTest {
                         requestFields(
                                 fieldWithPath("episode").type(STRING).description("Episode"),
                                 fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
-                                fieldWithPath("emotionOfEpisode.type").type(STRING).description("Emotion type"),
-                                fieldWithPath("emotionOfEpisode.details").type(ARRAY).description("Details of the emotion"),
+                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description("Emotion type"),
+                                fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
                                 fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
                                 fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
                         ),
