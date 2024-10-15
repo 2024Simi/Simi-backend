@@ -71,6 +71,8 @@ dependencies {
 	// spring security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.security:spring-security-test'
+	// query logging
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 
 }
 

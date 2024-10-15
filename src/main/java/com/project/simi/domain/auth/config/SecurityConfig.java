@@ -14,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import com.project.simi.domain.auth.enums.AuthoriryEnum;
 import com.project.simi.filter.JwtAuthenticationFilter;
 
 @RequiredArgsConstructor
@@ -39,8 +38,10 @@ public class SecurityConfig {
                         authz ->
                                 authz.requestMatchers("/api/v1/login", "/api/v1/refresh")
                                         .permitAll()
-                                        .requestMatchers("/api/v1/admin/**")
-                                        .hasAnyAuthority(AuthoriryEnum.ROLE_ADMIN.name())
+                                        //
+                                        // .requestMatchers("/api/v1/admin/**")
+                                        //
+                                        // .hasAnyAuthority(AuthoriryEnum.ROLE_ADMIN.name())
                                         .anyRequest()
                                         .authenticated())
                 .addFilterBefore(

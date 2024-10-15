@@ -6,7 +6,7 @@ public class DiaryDto {
     public record DiaryRequest(
             String episode,
             String thoughtOfEpisode,
-            EmotionOfEpisodeDto emotionOfEpisode,
+            List<EmotionOfEpisodeDto> emotionOfEpisodes,
             String resultOfEpisode,
             String empathyResponse) {}
 

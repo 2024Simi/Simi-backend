@@ -35,7 +35,7 @@ public abstract class AbstractJpaEntityListenerPersistable {
             name = "created_at",
             nullable = false,
             updatable = false,
-            columnDefinition = "datetime(6)")
+            columnDefinition = "TIMESTAMP WITH TIME ZONE")
     protected Instant createdAt;
 
     @Comment("")
@@ -45,7 +45,7 @@ public abstract class AbstractJpaEntityListenerPersistable {
 
     @Comment("수정일시")
     @LastModifiedDate
-    @Column(name = "updated_at", nullable = false, columnDefinition = "datetime(6)")
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     protected Instant updatedAt;
 
     @Comment("")
@@ -53,7 +53,7 @@ public abstract class AbstractJpaEntityListenerPersistable {
     protected Long deletedBy;
 
     @Comment("삭제일시")
-    @Column(name = "deleted_at", nullable = true, columnDefinition = "datetime(6)")
+    @Column(name = "deleted_at", nullable = true, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     protected Instant deletedAt;
 
     public void delete() {
