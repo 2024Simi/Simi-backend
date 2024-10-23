@@ -4,7 +4,11 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
-public record EmotionOfEpisodes(List<EmotionOfEpisode> emotionOfEpisodes) implements Serializable {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record EmotionOfEpisodes(
+        @JsonProperty("emotionOfEpisodes") List<EmotionOfEpisode> emotionOfEpisodes)
+        implements Serializable {
 
     @Serial private static final long serialVersionUID = 1L;
 

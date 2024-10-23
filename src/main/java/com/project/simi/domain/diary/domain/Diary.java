@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.Type;
 
 import com.project.simi.domain.common.domain.AbstractJpaIdentityPersistable;
-import com.project.simi.domain.diary.domain.converter.EmotionOfEpisodesJsonType;
+import com.project.simi.domain.diary.domain.converter.EmotionOfEpisodeConverter;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -35,8 +35,8 @@ public class Diary extends AbstractJpaIdentityPersistable {
     private String thoughtOfEpisode;
 
     @Comment("감정")
-    @Type(EmotionOfEpisodesJsonType.class)
-    @Column(name = "emotion_of_episodes", columnDefinition = "jsonb", nullable = false)
+    @Convert(converter = EmotionOfEpisodeConverter.class)
+    @Column(name = "emotion_of_episodes", nullable = false)
     private EmotionOfEpisodes emotionOfEpisodes;
 
     @Comment("결과")

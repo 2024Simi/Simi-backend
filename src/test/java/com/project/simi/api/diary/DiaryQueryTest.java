@@ -55,4 +55,38 @@ class DiaryQueryTest extends SuperIntegrationTest {
                         )
                 ));
     }
+
+
+    @Test
+    void getDiaryById() throws Exception {
+        Long diaryId = mockDefaultDiary.getId();
+
+        mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/v1/diary/{diaryId}", diaryId)
+                .header(ACCEPT, APPLICATION_JSON_VALUE)
+                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, createDefaultAuthentication())
+                .characterEncoding("utf-8"))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("{ClassName}/{methodName}",
+                requestHeaders(
+                    headerWithName(ACCEPT).description("응답 데이터 형식"),
+                    headerWithName(CONTENT_TYPE).description("요청 데이터 형식"),
+                    headerWithName(AUTHORIZATION).description("Bearer 토큰")
+                ),
+                responseFields(
+                    commonResponseFields(
+                        fieldWithPath("diaryId").type(NUMBER).description("다이어리 ID"),
+                        fieldWithPath("episode").type("String").description("에피소드 내용"),
+                        fieldWithPath("thoughtOfEpisode").type("String").description("에피소드에 대한 생각"),
+                        fieldWithPath("emotionOfEpisodes").type("Array").description("감정 리스트"),
+                        fieldWithPath("emotionOfEpisodes[].type").type("String").description("감정 타입"),
+                        fieldWithPath("emotionOfEpisodes[].details").type("Array").description("감정 상세 내용"),
+                        fieldWithPath("resultOfEpisode").type("String").description("에피소드의 결과"),
+                        fieldWithPath("empathyResponse").type("String").description("공감 응답")
+                    )
+                )
+            ));
+    }
 }

@@ -5,14 +5,13 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
-import jakarta.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.simi.domain.diary.domain.Diary;
 import com.project.simi.domain.diary.domain.EmotionOfEpisode;
-import com.project.simi.domain.diary.domain.EmotionType;
 import com.project.simi.domain.diary.dto.DiaryCalendarDto;
+import com.project.simi.domain.diary.dto.DiaryDto;
 import com.project.simi.domain.diary.dto.DiaryDto.DiaryCreateResponse;
 import com.project.simi.domain.diary.dto.DiaryDto.DiaryRequest;
 import com.project.simi.domain.diary.dto.DiaryDto.EmotionOfEpisodeDto;
@@ -51,11 +50,22 @@ public class DiaryService {
     }
 
     private EmotionOfEpisode createEmotionOfEpisode(EmotionOfEpisodeDto request) {
-        return new EmotionOfEpisode(EmotionType.valueOf(request.type()), request.details());
+        return new EmotionOfEpisode(request.type(), request.details());
     }
 
+    @Transactional(readOnly = true)
     public List<DiaryCalendarDto> getDiariesByDate(
             RequestUser requestUser, LocalDate startDate, LocalDate endDate) {
         return diaryQueryRepository.getDiariesByDate(requestUser.getId(), startDate, endDate);
+    }
+
+    private Diary getDiary(Long diaryId) {
+        return diaryQueryRepository.getById(diaryId);
+    }
+
+    @Transactional(readOnly = true)
+    public DiaryDto.Response getDiary(RequestUser requestUser, Long diaryId) {
+        Diary diary = getDiary(diaryId);
+        return DiaryDto.Response.createOf(diary);
     }
 }
