@@ -22,7 +22,7 @@ spring:
 
 ai:
   cerebras:
-    token: ${CEREBRAS_API_KEY}
+    token: demo-wjtwjdj3fedf4dhkhx2h52j6twxhhfww3c8pmpt4edvd95jx
 
 security:
   access-token:
