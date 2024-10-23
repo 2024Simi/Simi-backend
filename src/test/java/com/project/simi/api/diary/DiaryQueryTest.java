@@ -11,13 +11,17 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.project.simi.SuperIntegrationTest;
 import com.project.simi.domain.diary.domain.Diary;
+import com.project.simi.domain.diary.domain.EmotionType;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -46,6 +50,10 @@ class DiaryQueryTest extends SuperIntegrationTest {
                                 headerWithName(ACCEPT).description("Header"),
                                 headerWithName(CONTENT_TYPE).description("Content type"),
                                 headerWithName(AUTHORIZATION).description("Bearer token ")
+                        ),
+                        queryParameters(
+                              parameterWithName("startDate").description("시작 날짜"),
+                                parameterWithName("endDate").description("종료 날짜")
                         ),
                         responseFields(
                             commonListResponseFields(
@@ -81,7 +89,7 @@ class DiaryQueryTest extends SuperIntegrationTest {
                         fieldWithPath("episode").type("String").description("에피소드 내용"),
                         fieldWithPath("thoughtOfEpisode").type("String").description("에피소드에 대한 생각"),
                         fieldWithPath("emotionOfEpisodes").type("Array").description("감정 리스트"),
-                        fieldWithPath("emotionOfEpisodes[].type").type("String").description("감정 타입"),
+                        fieldWithPath("emotionOfEpisodes[].type").type("String").description(Arrays.toString(EmotionType.values())),
                         fieldWithPath("emotionOfEpisodes[].details").type("Array").description("감정 상세 내용"),
                         fieldWithPath("resultOfEpisode").type("String").description("에피소드의 결과"),
                         fieldWithPath("empathyResponse").type("String").description("공감 응답")
