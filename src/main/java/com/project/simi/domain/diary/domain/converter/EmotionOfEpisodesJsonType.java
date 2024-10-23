@@ -13,11 +13,18 @@ import org.hibernate.usertype.UserType;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.project.simi.domain.diary.domain.EmotionOfEpisodes;
 
+@Deprecated
 public class EmotionOfEpisodesJsonType implements UserType<EmotionOfEpisodes> {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    static {
+        objectMapper.findAndRegisterModules();
+        objectMapper.registerModule(new ParameterNamesModule());
+    }
 
     @Override
     public int getSqlType() {
@@ -50,6 +57,7 @@ public class EmotionOfEpisodesJsonType implements UserType<EmotionOfEpisodes> {
 
         try {
             // JSON 문자열을 EmotionOfEpisodes 객체로 변환
+            System.out.println("json: " + json);
             return objectMapper.readValue(json, EmotionOfEpisodes.class);
         } catch (JsonProcessingException e) {
             throw new HibernateException(
@@ -70,6 +78,7 @@ public class EmotionOfEpisodesJsonType implements UserType<EmotionOfEpisodes> {
             try {
                 // EmotionOfEpisodes 객체를 JSON 문자열로 변환
                 String json = objectMapper.writeValueAsString(value);
+                System.out.println("json write: " + json);
                 st.setObject(index, json, Types.OTHER);
             } catch (JsonProcessingException e) {
                 throw new HibernateException(
@@ -91,7 +100,7 @@ public class EmotionOfEpisodesJsonType implements UserType<EmotionOfEpisodes> {
 
     @Override
     public boolean isMutable() {
-        return true;
+        return false;
     }
 
     @Override

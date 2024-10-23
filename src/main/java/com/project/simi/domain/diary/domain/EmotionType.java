@@ -12,7 +12,8 @@ public enum EmotionType implements DescriptionEnum {
     SAD("슬픔"),
     ANGRY("분노"),
     FEAR("두려움"),
-    DISGUST("불쾌");
+    DISGUST("불쾌"),
+    SOMEHOW("그럭저럭");
 
     private final String name;
 

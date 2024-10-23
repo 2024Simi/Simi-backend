@@ -7,14 +7,14 @@ import jakarta.persistence.Converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.simi.domain.diary.domain.EmotionOfEpisode;
+import com.project.simi.domain.diary.domain.EmotionOfEpisodes;
 
 @Converter(autoApply = true)
-public class EmotionOfEpisodeConverter implements AttributeConverter<EmotionOfEpisode, String> {
+public class EmotionOfEpisodeConverter implements AttributeConverter<EmotionOfEpisodes, String> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public String convertToDatabaseColumn(EmotionOfEpisode emotion) {
+    public String convertToDatabaseColumn(EmotionOfEpisodes emotion) {
         try {
             return objectMapper.writeValueAsString(emotion);
         } catch (JsonProcessingException e) {
@@ -23,9 +23,9 @@ public class EmotionOfEpisodeConverter implements AttributeConverter<EmotionOfEp
     }
 
     @Override
-    public EmotionOfEpisode convertToEntityAttribute(String dbData) {
+    public EmotionOfEpisodes convertToEntityAttribute(String dbData) {
         try {
-            return objectMapper.readValue(dbData, EmotionOfEpisode.class);
+            return objectMapper.readValue(dbData, EmotionOfEpisodes.class);
         } catch (IOException e) {
             throw new RuntimeException("JSON 데이터를 Emotion 객체로 변환하는 데 실패했습니다.");
         }

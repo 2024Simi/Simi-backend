@@ -16,7 +16,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.simi.SuperIntegrationTest;
+import com.project.simi.domain.diary.domain.EmotionOfEpisodes;
+import com.project.simi.domain.diary.domain.EmotionType;
 import com.project.simi.domain.diary.dto.DiaryDto;
 import com.project.simi.domain.diary.dto.DiaryDto.EmotionOfEpisodeDto;
 import java.util.List;
@@ -29,7 +33,7 @@ class DiaryTest extends SuperIntegrationTest {
         DiaryDto.DiaryRequest request = new DiaryDto.DiaryRequest(
                 "사건",
                 "생각",
-                List.of(new EmotionOfEpisodeDto("HAPPY", List.of("행복", "즐거움"))),
+                List.of(new EmotionOfEpisodeDto(EmotionType.HAPPY, List.of("행복", "즐거움"))),
                 "결과",
                 "GPT의 한마디"
         );
@@ -64,5 +68,13 @@ class DiaryTest extends SuperIntegrationTest {
                                 )
                         )
                 ));
+    }
+
+    @Test
+    void serializeTest() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = "{\"emotionOfEpisodes\":[{\"type\":\"ANGRY\",\"details\":[\"details\"]}]}";
+
+        EmotionOfEpisodes result = objectMapper.readValue(json, EmotionOfEpisodes.class);
     }
 }

@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Repository;
 
+import com.project.simi.common.exception.NotFoundException;
+import com.project.simi.common.exception.code.NotFoundResourceCode;
+import com.project.simi.domain.diary.domain.Diary;
 import com.project.simi.domain.diary.dto.DiaryCalendarDto;
 import com.project.simi.domain.diary.repository.DiaryJpaRepository;
 import com.project.simi.domain.diary.repository.command.DiaryQueryRepository;
@@ -35,5 +38,12 @@ public class DiaryQueryRepositoryAdapter implements DiaryQueryRepository {
                                 startDate.atStartOfDay(ZoneId.of("Asia/Seoul")).toInstant(),
                                 endDate.atStartOfDay(ZoneId.of("Asia/Seoul")).toInstant()))
                 .fetch();
+    }
+
+    @Override
+    public Diary getById(Long diaryId) {
+        return diaryJpaRepository
+                .findById(diaryId)
+                .orElseThrow(() -> new NotFoundException(NotFoundResourceCode.DIARY));
     }
 }
