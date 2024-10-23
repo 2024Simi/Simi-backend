@@ -17,8 +17,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.project.simi.SuperIntegrationTest;
+import com.project.simi.domain.diary.domain.EmotionType;
 import com.project.simi.domain.diary.dto.DiaryDto;
 import com.project.simi.domain.diary.dto.DiaryDto.EmotionOfEpisodeDto;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -52,7 +54,7 @@ class DiaryTest extends SuperIntegrationTest {
                         requestFields(
                                 fieldWithPath("episode").type(STRING).description("Episode"),
                                 fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
-                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description("Emotion type"),
+                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
                                 fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
                                 fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
                                 fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
