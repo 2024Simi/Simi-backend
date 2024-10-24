@@ -3,8 +3,6 @@ plugins {
 	id 'org.springframework.boot' version '3.3.3'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'com.diffplug.spotless' version '6.23.3'
-	// aot
-	id 'org.springframework.boot.aot' version '3.3.3'
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 
 }
@@ -73,6 +71,16 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	// query logging
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+	// manifold
+	implementation 'systems.manifold:manifold-tuple:2024.1.37'
+	implementation 'systems.manifold:manifold-tuple-rt:2024.1.37'
+	annotationProcessor 'systems.manifold:manifold-tuple:2024.1.37'
+
+	implementation 'systems.manifold:manifold-ext:2024.1.37'
+	implementation 'systems.manifold:manifold-ext-rt:2024.1.37'
+	annotationProcessor 'systems.manifold:manifold-ext:2024.1.37'
+
+	implementation 'systems.manifold:manifold-strings:2024.1.37'
 
 }
 
@@ -110,7 +118,9 @@ tasks.register('makeGitHooksExecutable', Exec) {
 	commandLine 'chmod', '+x', new File(project.rootDir, '.git/hooks/pre-commit').absolutePath
 	dependsOn updateGitHooks
 }
-
+tasks.withType(JavaCompile) {
+	options.compilerArgs += ['-Xplugin:Manifold']
+}
 compileJava.dependsOn makeGitHooksExecutable
 
 ext {
@@ -144,9 +154,3 @@ bootJar {
 	}
 }
 
-processAot {
-	doFirst {
-		def profile = project.hasProperty('spring.profiles.active') ? project.getProperty('spring.profiles.active') : 'sandbox'
-		args("--spring.profiles.active=${profile}")
-	}
-}
