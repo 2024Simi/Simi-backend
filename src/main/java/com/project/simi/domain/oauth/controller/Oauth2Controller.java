@@ -22,6 +22,6 @@ public class Oauth2Controller {
     @GetMapping("/{provider}")
     public ApiResult<?> oauth2Login(
             @PathVariable AuthProviderEnum provider, @RequestParam String idToken) {
-        return ApiResult.ok(oauth2Service.getUserInfoAndVerify(provider, idToken));
+        return ApiResult.ok(oauth2Service.loginSignUp(provider, idToken));
     }
 }
