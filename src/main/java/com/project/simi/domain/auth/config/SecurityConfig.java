@@ -36,7 +36,10 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(
                         authz ->
-                                authz.requestMatchers("/api/v1/login", "/api/v1/refresh")
+                                authz.requestMatchers(
+                                                "/api/v1/login",
+                                                "/api/v1/refresh",
+                                                "/api/v1/oauth2/**")
                                         .permitAll()
                                         //
                                         // .requestMatchers("/api/v1/admin/**")

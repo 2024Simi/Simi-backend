@@ -1,7 +1,13 @@
 package com.project.simi.domain.user.repository.query;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+import org.springframework.data.repository.Repository;
 
 import com.project.simi.domain.user.domain.User;
 
-public interface UserJpaRepository extends JpaRepository<User, Long> {}
+public interface UserJpaRepository extends Repository<User, Long> {
+    User save(User user);
+
+    Optional<User> findById(Long userId);
+}
