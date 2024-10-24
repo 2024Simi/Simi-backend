@@ -82,6 +82,9 @@ dependencies {
 
 	implementation 'systems.manifold:manifold-strings:2024.1.37'
 
+	implementation 'com.nimbusds:nimbus-jose-jwt:9.22'
+
+
 }
 
 def queryDslSrcDir = 'src/main/generated'
