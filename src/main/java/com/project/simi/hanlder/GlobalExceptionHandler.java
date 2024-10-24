@@ -10,7 +10,6 @@ import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -25,6 +24,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import com.project.simi.common.base.ApiResult;
 import com.project.simi.common.base.ValidationErrorResponse;
 import com.project.simi.common.exception.BusinessException;
+import com.project.simi.common.exception.NotFoundException;
 
 @Slf4j
 @RestControllerAdvice

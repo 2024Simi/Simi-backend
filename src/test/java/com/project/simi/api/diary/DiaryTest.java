@@ -16,9 +16,14 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.simi.SuperIntegrationTest;
+import com.project.simi.domain.diary.domain.EmotionOfEpisodes;
+import com.project.simi.domain.diary.domain.EmotionType;
 import com.project.simi.domain.diary.dto.DiaryDto;
 import com.project.simi.domain.diary.dto.DiaryDto.EmotionOfEpisodeDto;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -29,7 +34,7 @@ class DiaryTest extends SuperIntegrationTest {
         DiaryDto.DiaryRequest request = new DiaryDto.DiaryRequest(
                 "사건",
                 "생각",
-                List.of(new EmotionOfEpisodeDto("HAPPY", List.of("행복", "즐거움"))),
+                List.of(new EmotionOfEpisodeDto(EmotionType.HAPPY, List.of("행복", "즐거움"))),
                 "결과",
                 "GPT의 한마디"
         );
@@ -52,7 +57,7 @@ class DiaryTest extends SuperIntegrationTest {
                         requestFields(
                                 fieldWithPath("episode").type(STRING).description("Episode"),
                                 fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
-                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description("Emotion type"),
+                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
                                 fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
                                 fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
                                 fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
@@ -64,5 +69,13 @@ class DiaryTest extends SuperIntegrationTest {
                                 )
                         )
                 ));
+    }
+
+    @Test
+    void serializeTest() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = "{\"emotionOfEpisodes\":[{\"type\":\"ANGRY\",\"details\":[\"details\"]}]}";
+
+        EmotionOfEpisodes result = objectMapper.readValue(json, EmotionOfEpisodes.class);
     }
 }
