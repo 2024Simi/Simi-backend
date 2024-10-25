@@ -1,4 +1,4 @@
-package com.project.simi.domain.oauth.service;
+package com.project.simi.domain.auth.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.project.simi.domain.auth.dto.LoginDto;
 import com.project.simi.domain.auth.dto.LoginDto.Response;
+import com.project.simi.domain.auth.dto.OIDCUserInfo;
 import com.project.simi.domain.auth.enums.AuthProviderEnum;
 import com.project.simi.domain.auth.enums.AuthoriryEnum;
 import com.project.simi.domain.auth.provider.JwtTokenProvider;
-import com.project.simi.domain.auth.service.RefreshTokenService;
-import com.project.simi.domain.oauth.dto.OIDCUserInfo;
 import com.project.simi.domain.user.domain.User;
 import com.project.simi.domain.user.repository.command.UserCommandRepository;
 import com.project.simi.domain.user.repository.query.UserQueryRepository;

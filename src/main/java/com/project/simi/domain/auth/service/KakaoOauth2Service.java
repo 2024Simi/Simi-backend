@@ -1,4 +1,4 @@
-package com.project.simi.domain.oauth.service;
+package com.project.simi.domain.auth.service;
 
 import java.security.interfaces.RSAPublicKey;
 
@@ -12,8 +12,8 @@ import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.project.simi.common.utils.ObjectMapperUtils;
-import com.project.simi.domain.oauth.cache.JWKSetCache;
-import com.project.simi.domain.oauth.dto.KakaoUserOIDC;
+import com.project.simi.domain.auth.cache.JWKSetCache;
+import com.project.simi.domain.auth.dto.KakaoUserOIDC;
 
 @ExtensionMethod({JWKSetCache.class, ObjectMapperUtils.class})
 @Service

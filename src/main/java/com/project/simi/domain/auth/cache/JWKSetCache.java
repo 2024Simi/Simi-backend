@@ -1,4 +1,4 @@
-package com.project.simi.domain.oauth.cache;
+package com.project.simi.domain.auth.cache;
 
 import java.net.URI;
 import java.util.concurrent.ConcurrentHashMap;

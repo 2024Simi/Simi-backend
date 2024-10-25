@@ -28,6 +28,8 @@ SIMI API 문서 입니다.
 | 운영서버
 | `????`
 |===
+= Auth
+include::/{docfile}/../contents/auth.adoc[]
 
 = DIARY
 include::/{docfile}/../contents/diary.adoc[]

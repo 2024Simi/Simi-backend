@@ -1,4 +1,4 @@
-package com.project.simi.domain.oauth.dto;
+package com.project.simi.domain.auth.dto;
 
 import java.util.List;
 
