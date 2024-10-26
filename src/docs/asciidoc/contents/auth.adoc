@@ -17,5 +17,5 @@ operation::LoginTest/refresh[snippets='http-request,http-response,request-fields
 ==== 성공 케이스
 
 '''
-operation::Oauth2Test/oauth2Login[snippets='http-request,http-response,query-parameters,response-fields']
+operation::Oauth2Test/oauth2Login[snippets='http-request,http-response,response-fields,request-headers']
 '''
