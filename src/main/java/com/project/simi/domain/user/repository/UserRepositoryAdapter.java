@@ -12,7 +12,6 @@ import com.project.simi.common.exception.code.NotFoundResourceCode;
 import com.project.simi.domain.user.domain.QUser;
 import com.project.simi.domain.user.domain.User;
 import com.project.simi.domain.user.repository.command.UserCommandRepository;
-import com.project.simi.domain.user.repository.query.UserJpaRepository;
 import com.project.simi.domain.user.repository.query.UserQueryRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 

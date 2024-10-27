@@ -45,7 +45,7 @@ dependencies {
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
 	// swagger
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 
 	// h2
 	runtimeOnly 'com.h2database:h2'
@@ -53,6 +53,7 @@ dependencies {
 	// postgresql //
 	runtimeOnly 'org.postgresql:postgresql'
 
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// jwt
 	//JJWT
@@ -83,7 +84,7 @@ dependencies {
 	implementation 'systems.manifold:manifold-strings:2024.1.37'
 
 	implementation 'com.nimbusds:nimbus-jose-jwt:9.22'
-
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 }
 
@@ -148,7 +149,9 @@ task copyRestDocument(type: Copy) {
 	from file("${asciidoctor.outputDir}")
 	into file("src/main/resources/static/docs")
 }
-
+processResources {
+	mustRunAfter copyRestDocument
+}
 bootJar {
 	dependsOn copyRestDocument
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE

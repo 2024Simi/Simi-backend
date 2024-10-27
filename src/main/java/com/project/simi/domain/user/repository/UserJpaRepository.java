@@ -1,4 +1,4 @@
-package com.project.simi.domain.user.repository.query;
+package com.project.simi.domain.user.repository;
 
 import java.util.Optional;
 
