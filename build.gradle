@@ -149,9 +149,7 @@ task copyRestDocument(type: Copy) {
 	from file("${asciidoctor.outputDir}")
 	into file("src/main/resources/static/docs")
 }
-processResources {
-	mustRunAfter copyRestDocument
-}
+
 bootJar {
 	dependsOn copyRestDocument
 	duplicatesStrategy = DuplicatesStrategy.INCLUDE
