@@ -1,0 +1,21 @@
+[#auth]
+== 인증 API
+=== 로그인 API
+==== 성공 케이스
+
+'''
+operation::LoginTest/login[snippets='http-request,http-response,request-fields,response-fields']
+'''
+=== Refresh Token API
+==== 성공 케이스
+
+'''
+operation::LoginTest/refresh[snippets='http-request,http-response,request-fields,response-fields']
+'''
+
+=== KAKAO 로그인 API
+==== 성공 케이스
+
+'''
+operation::Oauth2Test/oauth2Login[snippets='http-request,http-response,response-fields,request-headers']
+'''

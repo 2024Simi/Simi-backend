@@ -22,12 +22,12 @@ public class TestController {
 
     @GetMapping
     public String test() {
-        return "Hello, world!";
+        return "Hello, world!41";
     }
 
     @PostMapping
     public String testPost() {
-        return "Hello, world!";
+        return "Hello, world!2";
     }
 
     @PostMapping("/chat/completions")
