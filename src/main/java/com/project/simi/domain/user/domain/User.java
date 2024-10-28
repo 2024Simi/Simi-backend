@@ -104,4 +104,13 @@ public class User extends AbstractJpaIdentityPersistable {
 
         return user;
     }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+        this.isProfileSettings = true;
+    }
+
+    public void agreePrivatePolicy() {
+        this.isPrivatePolicyAgreed = true;
+    }
 }

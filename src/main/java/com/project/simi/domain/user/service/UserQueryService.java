@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.simi.domain.user.domain.User;
-import com.project.simi.domain.user.dto.UserDto;
+import com.project.simi.domain.user.dto.UserDto.UserResponseDto;
 import com.project.simi.domain.user.repository.query.UserQueryRepository;
 
 @Service
@@ -19,8 +19,8 @@ public class UserQueryService {
         return userQueryRepository.getUserById(id);
     }
 
-    public UserDto getUserById(Long id) {
+    public UserResponseDto getUserById(Long id) {
         User user = findById(id);
-        return UserDto.createOf(user);
+        return UserResponseDto.createOf(user);
     }
 }
