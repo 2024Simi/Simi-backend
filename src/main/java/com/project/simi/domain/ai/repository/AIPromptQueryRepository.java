@@ -1,3 +1,7 @@
 package com.project.simi.domain.ai.repository;
 
-public interface AIPromptQueryRepository {}
+import com.project.simi.domain.ai.domain.AIPrompt;
+
+public interface AIPromptQueryRepository {
+    AIPrompt getDefaultAIPrompt();
+}

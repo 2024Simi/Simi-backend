@@ -11,4 +11,8 @@ import lombok.NoArgsConstructor;
 public class ChatMessage {
     private String content;
     private String role;
+
+    public static ChatMessage createOf(String content, String role) {
+        return new ChatMessage(content, role);
+    }
 }
