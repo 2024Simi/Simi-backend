@@ -8,6 +8,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -41,8 +42,8 @@ public class UserQueryTest extends SuperIntegrationTest {
                         fieldWithPath("profileImageUrl").type(STRING).description("profile image url"),
                         fieldWithPath("nickname").type(STRING).description("nickname"),
                         fieldWithPath("provider").type(STRING).description("provider ${com.project.simi.domain.auth.enums.AuthProviderEnum.values().toString();}"  ),
-                        fieldWithPath("isPrivatePolicyAgreed").type(STRING).description("is private policy agreed"),
-                        fieldWithPath("isProfileSettings").type(STRING).description("is profile settings")
+                        fieldWithPath("isPrivatePolicyAgreed").type(BOOLEAN).description("is private policy agreed"),
+                        fieldWithPath("isProfileSettings").type(BOOLEAN).description("is profile settings")
                     )
                 )
             ));
