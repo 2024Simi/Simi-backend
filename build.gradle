@@ -82,8 +82,8 @@ dependencies {
 	annotationProcessor 'systems.manifold:manifold-ext:2024.1.37'
 
 	implementation 'systems.manifold:manifold-strings:2024.1.37'
-
-	implementation 'com.nimbusds:nimbus-jose-jwt:9.22'
+	testImplementation 'systems.manifold:manifold-strings:2024.1.37'
+	implementation 'com.nimbusds:nimbus-jose-jwt:9.37.2'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 }
