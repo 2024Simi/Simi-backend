@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 class DiaryTest extends SuperIntegrationTest {
     @Test
@@ -69,6 +70,36 @@ class DiaryTest extends SuperIntegrationTest {
                                 )
                         )
                 ));
+    }
+
+    @Test
+    void createDiary_withInvalidEmotionList() throws Exception {
+        DiaryDto.DiaryRequest request = new DiaryDto.DiaryRequest(
+                "사건",
+                "생각",
+                List.of(
+                        new EmotionOfEpisodeDto(
+                                EmotionType.HAPPY, List.of("행복", "즐거움", "행복", "즐거움")
+                        ),
+                        new EmotionOfEpisodeDto(
+                                EmotionType.ANGRY, List.of("화남", "분노")
+                        )
+                ),
+                "결과",
+                "GPT의 한마디"
+        );
+
+        mvc.perform(RestDocumentationRequestBuilders
+                        .post("/api/v1/diary")
+                        .header(ACCEPT, APPLICATION_JSON_VALUE)
+                        .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                        .header(AUTHORIZATION, createDefaultAuthentication())
+                        .content(objectMapper.writeValueAsString(request))
+                        .characterEncoding("utf-8"))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].message")
+                        .value("선택할 수 있는 감정은 최대 5개 입니다."));
     }
 
     @Test

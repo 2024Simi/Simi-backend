@@ -10,4 +10,10 @@ import jakarta.validation.Constraint;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = MaxEmotionValidator.class)
-public @interface MaxEmotionCheck {}
+public @interface MaxEmotionCheck {
+    String message() default "선택할 수 있는 감정은 최대 5개 입니다.";
+
+    Class[] groups() default {};
+
+    Class[] payload() default {};
+}
