@@ -15,7 +15,6 @@ public class MaxEmotionValidator
             List<EmotionOfEpisodeDto> emotionList, ConstraintValidatorContext context) {
         int totalEmotions =
                 emotionList.stream().mapToInt(emotion -> emotion.details().size()).sum();
-        System.out.println("totalEmotions = " + totalEmotions);
         if (totalEmotions > 5) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("선택할 수 있는 감정은 최대 5개 입니다.")
