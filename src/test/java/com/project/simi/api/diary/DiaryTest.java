@@ -103,6 +103,36 @@ class DiaryTest extends SuperIntegrationTest {
     }
 
     @Test
+    void createDiary_withDuplicateEmotionType() throws Exception {
+        DiaryDto.DiaryRequest request = new DiaryDto.DiaryRequest(
+                "사건",
+                "생각",
+                List.of(
+                        new EmotionOfEpisodeDto(
+                                EmotionType.HAPPY, List.of("행복", "즐거움")
+                        ),
+                        new EmotionOfEpisodeDto(
+                                EmotionType.HAPPY, List.of("행복", "즐거움")
+                        )
+                ),
+                "결과",
+                "GPT의 한마디"
+        );
+
+        mvc.perform(RestDocumentationRequestBuilders
+                        .post("/api/v1/diary")
+                        .header(ACCEPT, APPLICATION_JSON_VALUE)
+                        .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                        .header(AUTHORIZATION, createDefaultAuthentication())
+                        .content(objectMapper.writeValueAsString(request))
+                        .characterEncoding("utf-8"))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].message")
+                        .value("중복된 감정 타입이 있습니다."));
+    }
+
+    @Test
     void serializeTest() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = "{\"emotionOfEpisodes\":[{\"type\":\"ANGRY\",\"details\":[\"details\"]}]}";
