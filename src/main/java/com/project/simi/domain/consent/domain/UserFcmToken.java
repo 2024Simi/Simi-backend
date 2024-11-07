@@ -26,9 +26,6 @@ import com.project.simi.domain.consent.enums.NotificationStatus;
 @SQLRestriction("deleted_at is null")
 public class UserFcmToken extends AbstractJpaIdentityPersistable {
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
     @Column(name = "device_id", nullable = false, length = 100)
     private String deviceId;
 
