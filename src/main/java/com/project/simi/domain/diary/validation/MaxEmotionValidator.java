@@ -17,7 +17,8 @@ public class MaxEmotionValidator
             List<EmotionOfEpisodeDto> emotionList, ConstraintValidatorContext context) {
         if (getTotalEmotions(emotionList) > MAX_EMOTIONS) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("선택할 수 있는 감정은 최대 5개 입니다.")
+            context.buildConstraintViolationWithTemplate(
+                            "선택할 수 있는 감정은 최대 " + MAX_EMOTIONS + "개 입니다.")
                     .addConstraintViolation();
             return false;
         }
