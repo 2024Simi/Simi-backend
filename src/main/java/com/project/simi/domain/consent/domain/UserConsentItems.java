@@ -35,7 +35,4 @@ public class UserConsentItems extends AbstractJpaIdentityPersistable {
 
     @Column(name = "isAgreed", nullable = false)
     private Boolean isAgreed;
-
-    @Column(name = "consent_version", nullable = false)
-    private int consentVersion;
 }

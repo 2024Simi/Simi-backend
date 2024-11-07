@@ -26,8 +26,8 @@ import com.project.simi.domain.consent.enums.ConsentType;
 @SQLRestriction("deleted_at is null")
 public class TermsOfService extends AbstractJpaIdentityPersistable {
 
-    @Column(name = "version", nullable = false)
-    private int version;
+    @Column(name = "terms_of_version", nullable = false)
+    private int termsOfVersion;
 
     @Column(name = "consent_type", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
