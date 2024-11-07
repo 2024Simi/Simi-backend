@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.Comment;
@@ -17,6 +19,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.project.simi.domain.user.domain.User;
 
 @Getter
 @MappedSuperclass
@@ -28,6 +32,10 @@ public abstract class AbstractJpaEntityListenerPersistable {
     @CreatedBy
     @Column(name = "created_by", nullable = false, updatable = false)
     protected Long createdBy = 0L;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by", nullable = false, updatable = false, insertable = false)
+    protected User createdByUser;
 
     @Comment("생성일시")
     @CreatedDate

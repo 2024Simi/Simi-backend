@@ -75,6 +75,7 @@ public class User extends AbstractJpaIdentityPersistable {
     @Column(name = "non_locked", nullable = false)
     private boolean notExpired = true;
 
+    @Deprecated(since = "2024-11-07", forRemoval = true)
     @Comment("약관 동의 여부 ")
     @Column(name = "is_private_policy_agreed", nullable = false)
     @ColumnDefault("false")
@@ -110,6 +111,7 @@ public class User extends AbstractJpaIdentityPersistable {
         this.isProfileSettings = true;
     }
 
+    @Deprecated(since = "2024-11-07", forRemoval = true)
     public void agreePrivatePolicy() {
         this.isPrivatePolicyAgreed = true;
     }

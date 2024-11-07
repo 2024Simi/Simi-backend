@@ -20,6 +20,7 @@ public class UserCommandService {
         user.updateNickname(nickname);
     }
 
+    @Deprecated(since = "2024-11-07", forRemoval = true)
     public void agreePrivatePolicy(Long id) {
         User user = getUserById(id);
         user.agreePrivatePolicy();
