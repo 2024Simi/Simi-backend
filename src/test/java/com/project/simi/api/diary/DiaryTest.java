@@ -36,8 +36,7 @@ class DiaryTest extends SuperIntegrationTest {
                 "사건",
                 "생각",
                 List.of(new EmotionOfEpisodeDto(EmotionType.HAPPY, List.of("행복", "즐거움"))),
-                "결과",
-                "GPT의 한마디"
+                "결과"
         );
 
         mvc.perform(RestDocumentationRequestBuilders
@@ -60,8 +59,7 @@ class DiaryTest extends SuperIntegrationTest {
                                 fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
                                 fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
                                 fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
-                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
-                                fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
+                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode")
                         ),
                         responseFields(
                                 commonResponseFields(
@@ -85,8 +83,7 @@ class DiaryTest extends SuperIntegrationTest {
                                 EmotionType.ANGRY, List.of("화남", "분노")
                         )
                 ),
-                "결과",
-                "GPT의 한마디"
+                "결과"
         );
 
         mvc.perform(RestDocumentationRequestBuilders
@@ -115,8 +112,7 @@ class DiaryTest extends SuperIntegrationTest {
                                 EmotionType.HAPPY, List.of("행복", "즐거움")
                         )
                 ),
-                "결과",
-                "GPT의 한마디"
+                "결과"
         );
 
         mvc.perform(RestDocumentationRequestBuilders

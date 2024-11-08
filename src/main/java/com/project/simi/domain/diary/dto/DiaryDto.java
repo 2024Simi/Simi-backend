@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import jakarta.validation.constraints.NotEmpty;
 
@@ -22,8 +23,7 @@ public class DiaryDto {
             String thoughtOfEpisode,
             @NotEmpty @MaxEmotionCheck @UniqueEmotionTypeCheck
                     List<EmotionOfEpisodeDto> emotionOfEpisodes,
-            String resultOfEpisode,
-            String empathyResponse) {
+            String resultOfEpisode) {
         public List<EmotionOfEpisodeDto> getEmotionOfEpisodesNotDuplicatedByType() {
             return emotionOfEpisodes.stream()
                     .collect(
@@ -44,6 +44,7 @@ public class DiaryDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @ToString
     public static class Response {
         private Long diaryId;
         private String episode;

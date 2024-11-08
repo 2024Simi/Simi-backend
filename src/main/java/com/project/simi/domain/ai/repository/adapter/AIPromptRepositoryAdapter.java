@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.project.simi.common.exception.NotFoundException;
 import com.project.simi.common.exception.code.NotFoundResourceCode;
 import com.project.simi.domain.ai.domain.AIPrompt;
+import com.project.simi.domain.ai.dto.ChatRequest;
 import com.project.simi.domain.ai.repository.AIPromptCommandRepository;
 import com.project.simi.domain.ai.repository.AIPromptJpaRepository;
 import com.project.simi.domain.ai.repository.AIPromptQueryRepository;
@@ -30,10 +31,11 @@ public class AIPromptRepositoryAdapter
     }
 
     @Override
-    public AIPrompt getDefaultAIPrompt() {
+    public ChatRequest getDefaultAIPrompt() {
         return Optional.ofNullable(
                         queryFactory
-                                .selectFrom(aIPrompt)
+                                .select(aIPrompt.chatRequest)
+                                .from(aIPrompt)
                                 .where(aIPrompt.isDefault.isTrue())
                                 .orderBy(aIPrompt.updatedAt.desc())
                                 .limit(1)

@@ -20,7 +20,7 @@ public class AIRequestHelperService {
     private final AIPromptQueryRepository aiPromptQueryRepository;
 
     public ChatResponse requestChatResponse(String prompt) {
-        ChatRequest chatRequest = aiPromptQueryRepository.getDefaultAIPrompt().getChatRequest();
+        ChatRequest chatRequest = aiPromptQueryRepository.getDefaultAIPrompt();
         String aiModel = chatRequest.getModel();
         if (CerebrasAIModel.values().stream()
                 .anyMatch(model -> model.getDescription().equals(aiModel))) {
