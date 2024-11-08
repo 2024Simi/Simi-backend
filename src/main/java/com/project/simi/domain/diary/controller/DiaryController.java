@@ -35,7 +35,7 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping("diary")
-    public ApiResult<DiaryCreateResponse> createDiary(@RequestBody DiaryRequest request) {
+    public ApiResult<DiaryCreateResponse> createDiary(@Valid @RequestBody DiaryRequest request) {
         DiaryCreateResponse response = diaryService.createDiary(request);
         return ApiResult.ok(response);
     }
