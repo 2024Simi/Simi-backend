@@ -13,12 +13,15 @@ import jakarta.validation.constraints.NotEmpty;
 import com.project.simi.domain.diary.domain.Diary;
 import com.project.simi.domain.diary.domain.EmotionOfEpisode;
 import com.project.simi.domain.diary.domain.EmotionType;
+import com.project.simi.domain.diary.validation.MaxEmotionCheck;
+import com.project.simi.domain.diary.validation.UniqueEmotionTypeCheck;
 
 public class DiaryDto {
     public record DiaryRequest(
             String episode,
             String thoughtOfEpisode,
-            @NotEmpty List<EmotionOfEpisodeDto> emotionOfEpisodes,
+            @NotEmpty @MaxEmotionCheck @UniqueEmotionTypeCheck
+                    List<EmotionOfEpisodeDto> emotionOfEpisodes,
             String resultOfEpisode,
             String empathyResponse) {
         public List<EmotionOfEpisodeDto> getEmotionOfEpisodesNotDuplicatedByType() {
