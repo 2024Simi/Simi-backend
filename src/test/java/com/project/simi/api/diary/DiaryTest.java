@@ -73,7 +73,7 @@ class DiaryTest extends SuperIntegrationTest {
     }
 
     @Test
-    void createDiary_withInvalidEmotionList() throws Exception {
+    void createDiaryWithInvalidEmotionList() throws Exception {
         DiaryDto.DiaryRequest request = new DiaryDto.DiaryRequest(
                 "사건",
                 "생각",
