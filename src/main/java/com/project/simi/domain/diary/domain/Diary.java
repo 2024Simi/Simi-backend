@@ -44,8 +44,8 @@ public class Diary extends AbstractJpaIdentityPersistable {
 
     @Comment("메인 감정")
     @Enumerated(EnumType.STRING)
-    @Column(name = "primary", nullable = false)
-    private EmotionType primary;
+    @Column(name = "primary_emotion", nullable = false)
+    private EmotionType primaryEmotion;
 
     @Comment("결과")
     @Column(name = "result_of_episode", length = 255, nullable = false)
@@ -82,8 +82,8 @@ public class Diary extends AbstractJpaIdentityPersistable {
                 .getKey();
     }
 
-    private void updatePrimaryEmotion(EmotionType primary) {
-        this.primary = primary;
+    private void updatePrimaryEmotion(EmotionType primaryEmotion) {
+        this.primaryEmotion = primaryEmotion;
     }
 
     public static Diary createOf(
