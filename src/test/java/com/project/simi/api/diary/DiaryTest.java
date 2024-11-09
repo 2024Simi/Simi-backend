@@ -99,7 +99,28 @@ class DiaryTest extends SuperIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].message")
-                        .value("선택할 수 있는 감정은 최대 5개 입니다."));
+                        .value("선택할 수 있는 감정은 최대 5개 입니다."))
+                .andDo(document("{ClassName}" + "/" + "{methodName}",
+                        requestHeaders(
+                                headerWithName(ACCEPT).description("Header"),
+                                headerWithName(CONTENT_TYPE).description("Content type"),
+                                headerWithName(AUTHORIZATION).description("Bearer token ")
+                        ),
+                        requestFields(
+                                fieldWithPath("episode").type(STRING).description("Episode"),
+                                fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
+                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
+                                fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
+                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
+                                fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
+                        ),
+                        responseFields(
+                                commonResponseFields(
+                                        fieldWithPath("[].field").type(STRING).description("에러 필드(emotionOfEpisodes)"),
+                                        fieldWithPath("[].message").type(STRING).description("에러 메시지")
+                                )
+                        ))
+                );
     }
 
     @Test
@@ -129,7 +150,67 @@ class DiaryTest extends SuperIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].message")
-                        .value("중복된 감정 타입이 있습니다."));
+                        .value("중복된 감정 타입이 있습니다."))
+                .andDo(document("{ClassName}" + "/" + "{methodName}",
+                        requestHeaders(
+                                headerWithName(ACCEPT).description("Header"),
+                                headerWithName(CONTENT_TYPE).description("Content type"),
+                                headerWithName(AUTHORIZATION).description("Bearer token ")
+                        ),
+                        requestFields(
+                                fieldWithPath("episode").type(STRING).description("Episode"),
+                                fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
+                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
+                                fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
+                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
+                                fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
+                        ),
+                        responseFields(
+                                commonResponseFields(
+                                        fieldWithPath("[].field").type(STRING).description("에러 필드(emotionOfEpisodes)"),
+                                        fieldWithPath("[].message").type(STRING).description("에러 메시지")
+                                )
+                        ))
+                );
+    }
+
+    @Test
+    void updateDiary() throws Exception {
+        DiaryDto.DiaryUpdateRequest request = new DiaryDto.DiaryUpdateRequest(
+                "사건 업데이트",
+                "생각 업데이트",
+                List.of(new EmotionOfEpisodeDto(EmotionType.ANGRY, List.of("화남", "재수없음"))),
+                "결과 업데이트"
+        );
+
+        mvc.perform(RestDocumentationRequestBuilders
+                        .post("/api/v1/diary/{diaryId}", 1)
+                        .header(ACCEPT, APPLICATION_JSON_VALUE)
+                        .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                        .header(AUTHORIZATION, createDefaultAuthentication())
+                        .content(objectMapper.writeValueAsString(request))
+                        .characterEncoding("utf-8"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("{ClassName}" + "/" + "{methodName}",
+                        requestHeaders(
+                                headerWithName(ACCEPT).description("Header"),
+                                headerWithName(CONTENT_TYPE).description("Content type"),
+                                headerWithName(AUTHORIZATION).description("Bearer token ")
+                        ),
+                        requestFields(
+                                fieldWithPath("episode").type(STRING).description("Episode"),
+                                fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
+                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
+                                fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
+                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode")
+                        ),
+                        responseFields(
+                                commonResponseFields(
+                                        fieldWithPath("id").type(NUMBER).description("변경된 다이어리 ID")
+                                )
+                        )
+                ));
     }
 
     @Test

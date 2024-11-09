@@ -20,3 +20,20 @@ operation::DiaryQueryTest/getDiaryById[snippets='http-request,path-parameters,ht
 '''
 operation::DiaryTest/createDiary[snippets='http-request,http-response,request-fields,response-fields']
 '''
+
+==== 실패 케이스
+
+'''
+operation::DiaryTest/createDiary_withInvalidEmotionList[snippets='http-request,http-response,request-fields,response-fields']
+'''
+
+'''
+operation::DiaryTest/createDiary_withDuplicateEmotionType[snippets='http-request,http-response,request-fields,response-fields']
+'''
+
+=== 일기 수정 API
+==== 성공 케이스
+
+'''
+operation::DiaryTest/updateDiary[snippets='http-request,path-parameters,http-response,request-fields,response-fields']
+'''

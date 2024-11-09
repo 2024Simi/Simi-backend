@@ -91,6 +91,7 @@ class DiaryQueryTest extends SuperIntegrationTest {
                         fieldWithPath("emotionOfEpisodes").type("Array").description("감정 리스트"),
                         fieldWithPath("emotionOfEpisodes[].type").type("String").description(Arrays.toString(EmotionType.values())),
                         fieldWithPath("emotionOfEpisodes[].details").type("Array").description("감정 상세 내용"),
+                        fieldWithPath("primaryEmotion").type("String").description("주요 감정"),
                         fieldWithPath("resultOfEpisode").type("String").description("에피소드의 결과"),
                         fieldWithPath("empathyResponse").type("String").description("공감 응답")
                     )
