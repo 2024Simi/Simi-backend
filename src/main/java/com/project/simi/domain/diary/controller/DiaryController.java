@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.simi.common.base.ApiResult;
 import com.project.simi.domain.auth.resolver.Authenticated;
+import com.project.simi.domain.common.dto.DefaultIdResponse;
 import com.project.simi.domain.diary.dto.DiaryCalendarDto;
 import com.project.simi.domain.diary.dto.DiaryDto;
 import com.project.simi.domain.diary.dto.DiaryDto.*;
@@ -50,10 +51,10 @@ public class DiaryController {
     }
 
     @PostMapping("diary/{diaryId}")
-    public ApiResult<Long> updateDiary(
+    public ApiResult<DefaultIdResponse> updateDiary(
             @PathVariable Long diaryId, @Valid @RequestBody DiaryUpdateRequest request) {
         Long response = diaryService.updateDiary(diaryId, request);
-        return ApiResult.ok(response);
+        return ApiResult.ok(new DefaultIdResponse(response));
     }
 
     @GetMapping("diary/{diaryId}")
