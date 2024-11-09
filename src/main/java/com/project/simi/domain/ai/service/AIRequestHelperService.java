@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.simi.domain.ai.cerebras.api.CerebrasRequestAPIClient;
+import com.project.simi.domain.ai.cerebras.api.ICerebrasRequestAPIClient;
 import com.project.simi.domain.ai.cerebras.dto.CerebrasAIModel;
 import com.project.simi.domain.ai.dto.ChatMessage;
 import com.project.simi.domain.ai.dto.ChatRequest;
@@ -16,7 +16,7 @@ import com.project.simi.domain.ai.repository.AIPromptQueryRepository;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AIRequestHelperService {
-    private final CerebrasRequestAPIClient cerebrasRequestAPIClient;
+    private final ICerebrasRequestAPIClient cerebrasRequestAPIClient;
     private final AIPromptQueryRepository aiPromptQueryRepository;
 
     public ChatResponse requestChatResponse(String prompt) {

@@ -23,12 +23,14 @@ import com.project.simi.domain.diary.domain.EmotionOfEpisodes;
 import com.project.simi.domain.diary.domain.EmotionType;
 import com.project.simi.domain.diary.dto.DiaryDto;
 import com.project.simi.domain.diary.dto.DiaryDto.EmotionOfEpisodeDto;
+import com.project.simi.mock.ai.MockCerebrasConfig;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
+@Import(MockCerebrasConfig.class)
 class DiaryTest extends SuperIntegrationTest {
     @Test
     void createDiary() throws Exception {
@@ -38,7 +40,6 @@ class DiaryTest extends SuperIntegrationTest {
                 List.of(new EmotionOfEpisodeDto(EmotionType.HAPPY, List.of("행복", "즐거움"))),
                 "결과"
         );
-
         mvc.perform(RestDocumentationRequestBuilders
                         .post("/api/v1/diary")
                         .header(ACCEPT, APPLICATION_JSON_VALUE)

@@ -17,7 +17,7 @@ import com.project.simi.domain.ai.dto.ChatResponse;
 
 @Slf4j
 @Component
-public class CerebrasRequestAPIClient {
+public class CerebrasRequestAPIClient implements ICerebrasRequestAPIClient {
 
     private static final String CEREBRAS_API_URL = "https://api.cerebras.ai/v1/chat/completions";
     private static final RestClient CLIENT = RestClient.builder().baseUrl(CEREBRAS_API_URL).build();
