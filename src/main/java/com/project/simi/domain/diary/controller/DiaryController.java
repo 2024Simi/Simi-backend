@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,7 +51,7 @@ public class DiaryController {
         return ApiResult.ok(response);
     }
 
-    @PostMapping("diary/{diaryId}")
+    @PutMapping("diary/{diaryId}")
     public ApiResult<DefaultIdResponse> updateDiary(
             @PathVariable Long diaryId, @Valid @RequestBody DiaryUpdateRequest request) {
         Long response = diaryService.updateDiary(diaryId, request);
