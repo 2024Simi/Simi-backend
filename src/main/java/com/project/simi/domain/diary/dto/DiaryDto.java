@@ -39,6 +39,14 @@ public class DiaryDto {
 
     public record DiaryCreateResponse(Long diaryId, String empathyResponse) {}
 
+    public record DiaryUpdateRequest(
+            String episode,
+            String thoughtOfEpisode,
+            @NotEmpty @MaxEmotionCheck @UniqueEmotionTypeCheck
+                    List<EmotionOfEpisodeDto> emotionOfEpisodes,
+            String resultOfEpisode,
+            String empathyResponse) {}
+
     public record EmotionOfEpisodeDto(EmotionType type, List<String> details) {}
 
     @Getter
@@ -49,6 +57,7 @@ public class DiaryDto {
         private String episode;
         private String thoughtOfEpisode;
         private List<EmotionOfEpisode> emotionOfEpisodes;
+        private EmotionType primaryEmotion;
         private String resultOfEpisode;
         private String empathyResponse;
 
@@ -58,6 +67,7 @@ public class DiaryDto {
             response.episode = diary.getEpisode();
             response.thoughtOfEpisode = diary.getThoughtOfEpisode();
             response.emotionOfEpisodes = diary.getEmotionOfEpisodes().emotionOfEpisodes();
+            response.primaryEmotion = diary.getPrimaryEmotion();
             response.resultOfEpisode = diary.getResultOfEpisode();
             response.empathyResponse = diary.getEmpathyResponse();
             return response;
