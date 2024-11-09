@@ -12,6 +12,8 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.Comment;
@@ -41,6 +43,7 @@ public class Diary extends AbstractJpaIdentityPersistable {
     private EmotionOfEpisodes emotionOfEpisodes;
 
     @Comment("메인 감정")
+    @Enumerated(EnumType.STRING)
     @Column(name = "primary", nullable = false)
     private EmotionType primary;
 
