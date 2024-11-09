@@ -109,8 +109,7 @@ class DiaryTest extends SuperIntegrationTest {
                                 fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
                                 fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
                                 fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
-                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
-                                fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
+                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode")
                         ),
                         responseFields(
                                 commonResponseFields(
@@ -159,8 +158,7 @@ class DiaryTest extends SuperIntegrationTest {
                                 fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
                                 fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
                                 fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
-                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
-                                fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
+                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode")
                         ),
                         responseFields(
                                 commonResponseFields(
@@ -181,7 +179,7 @@ class DiaryTest extends SuperIntegrationTest {
         );
 
         mvc.perform(RestDocumentationRequestBuilders
-                        .post("/api/v1/diary/{diaryId}", 1)
+                        .put("/api/v1/diary/{diaryId}", 1)
                         .header(ACCEPT, APPLICATION_JSON_VALUE)
                         .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                         .header(AUTHORIZATION, createDefaultAuthentication())
