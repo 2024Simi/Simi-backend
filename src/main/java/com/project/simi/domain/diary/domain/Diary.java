@@ -59,16 +59,10 @@ public class Diary extends AbstractJpaIdentityPersistable {
         HashMap<EmotionType, Integer> emotionMap = new HashMap<>();
         for (EmotionOfEpisode emotionOfEpisode : emotionOfEpisodes) {
             EmotionType emotion = emotionOfEpisode.getType();
-            if (emotionMap.containsKey(emotion)) {
-                emotionMap.put(
-                        emotion, emotionMap.get(emotion) + emotionOfEpisode.getDetails().size());
-            } else {
-                emotionMap.put(emotion, 1);
-            }
+            emotionMap.merge(emotion, emotionOfEpisode.getDetails().size(), Integer::sum);
         }
 
         int maxFrequency = emotionMap.values().stream().max(Integer::compareTo).orElse(0);
-
         long maxCount = emotionMap.values().stream().filter(count -> count == maxFrequency).count();
 
         if (maxCount > 1) {
