@@ -25,7 +25,7 @@ import com.project.simi.domain.common.domain.AbstractJpaIdentityPersistable;
 @Entity
 @SQLRestriction("deleted_at is null")
 public class AIPrompt extends AbstractJpaIdentityPersistable {
-    @Column(columnDefinition = "jsonb")
+    @Column(name = "chat_request", columnDefinition = "TEXT")
     @Convert(converter = ChatRequestConverter.class)
     private ChatRequest chatRequest;
 
@@ -33,5 +33,9 @@ public class AIPrompt extends AbstractJpaIdentityPersistable {
 
     public static AIPrompt createOf(ChatRequest request) {
         return new AIPrompt(request, false);
+    }
+
+    public static AIPrompt createDefault(ChatRequest request) {
+        return new AIPrompt(request, true);
     }
 }

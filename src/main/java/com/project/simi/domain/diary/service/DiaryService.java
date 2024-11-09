@@ -2,12 +2,14 @@ package com.project.simi.domain.diary.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.simi.domain.ai.service.AIRequestHelperService;
 import com.project.simi.domain.diary.domain.Diary;
 import com.project.simi.domain.diary.domain.EmotionOfEpisode;
 import com.project.simi.domain.diary.dto.DiaryCalendarDto;
@@ -26,12 +28,13 @@ import com.project.simi.domain.user.dto.RequestUser;
 public class DiaryService {
     private final DiaryCommandRepository diaryCommandRepository;
     private final DiaryQueryRepository diaryQueryRepository;
+    private final AIRequestHelperService aiRequestHelperService;
 
     public DiaryCreateResponse createDiary(DiaryRequest request) {
-        // 지피티에게 물어봐서 결과 뽑기
-        String empathyResponse = "지피티에게 물어봐서 결과 뽑기";
-
-        // 다이어리 저장
+        String empathyResponse =
+                aiRequestHelperService.requestChatResponse(request.toString()).getChoices().stream()
+                        .map(res -> res.getMessage().getContent())
+                        .collect(Collectors.joining(" "));
         Long diaryId = saveDiary(request, empathyResponse);
         return new DiaryCreateResponse(diaryId, empathyResponse);
     }

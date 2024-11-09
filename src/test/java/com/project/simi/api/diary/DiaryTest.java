@@ -23,12 +23,14 @@ import com.project.simi.domain.diary.domain.EmotionOfEpisodes;
 import com.project.simi.domain.diary.domain.EmotionType;
 import com.project.simi.domain.diary.dto.DiaryDto;
 import com.project.simi.domain.diary.dto.DiaryDto.EmotionOfEpisodeDto;
+import com.project.simi.mock.ai.MockCerebrasConfig;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
+@Import(MockCerebrasConfig.class)
 class DiaryTest extends SuperIntegrationTest {
     @Test
     void createDiary() throws Exception {
@@ -36,10 +38,8 @@ class DiaryTest extends SuperIntegrationTest {
                 "사건",
                 "생각",
                 List.of(new EmotionOfEpisodeDto(EmotionType.HAPPY, List.of("행복", "즐거움"))),
-                "결과",
-                "GPT의 한마디"
+                "결과"
         );
-
         mvc.perform(RestDocumentationRequestBuilders
                         .post("/api/v1/diary")
                         .header(ACCEPT, APPLICATION_JSON_VALUE)
@@ -60,8 +60,7 @@ class DiaryTest extends SuperIntegrationTest {
                                 fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
                                 fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
                                 fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
-                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
-                                fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
+                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode")
                         ),
                         responseFields(
                                 commonResponseFields(
@@ -85,8 +84,7 @@ class DiaryTest extends SuperIntegrationTest {
                                 EmotionType.ANGRY, List.of("화남", "분노")
                         )
                 ),
-                "결과",
-                "GPT의 한마디"
+                "결과"
         );
 
         mvc.perform(RestDocumentationRequestBuilders
@@ -136,8 +134,7 @@ class DiaryTest extends SuperIntegrationTest {
                                 EmotionType.HAPPY, List.of("행복", "즐거움")
                         )
                 ),
-                "결과",
-                "GPT의 한마디"
+                "결과"
         );
 
         mvc.perform(RestDocumentationRequestBuilders
