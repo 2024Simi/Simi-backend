@@ -73,7 +73,7 @@ class DiaryTest extends SuperIntegrationTest {
     }
 
     @Test
-    void createDiaryWithInvalidEmotionList() throws Exception {
+    void createDiary_withInvalidEmotionList() throws Exception {
         DiaryDto.DiaryRequest request = new DiaryDto.DiaryRequest(
                 "사건",
                 "생각",
@@ -99,7 +99,28 @@ class DiaryTest extends SuperIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].message")
-                        .value("선택할 수 있는 감정은 최대 5개 입니다."));
+                        .value("선택할 수 있는 감정은 최대 5개 입니다."))
+                .andDo(document("{ClassName}" + "/" + "{methodName}",
+                        requestHeaders(
+                                headerWithName(ACCEPT).description("Header"),
+                                headerWithName(CONTENT_TYPE).description("Content type"),
+                                headerWithName(AUTHORIZATION).description("Bearer token ")
+                        ),
+                        requestFields(
+                                fieldWithPath("episode").type(STRING).description("Episode"),
+                                fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
+                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
+                                fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
+                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
+                                fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
+                        ),
+                        responseFields(
+                                commonResponseFields(
+                                        fieldWithPath("[].field").type(STRING).description("에러 필드(emotionOfEpisodes)"),
+                                        fieldWithPath("[].message").type(STRING).description("에러 메시지")
+                                )
+                        ))
+                );
     }
 
     @Test
@@ -129,7 +150,28 @@ class DiaryTest extends SuperIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].message")
-                        .value("중복된 감정 타입이 있습니다."));
+                        .value("중복된 감정 타입이 있습니다."))
+                .andDo(document("{ClassName}" + "/" + "{methodName}",
+                        requestHeaders(
+                                headerWithName(ACCEPT).description("Header"),
+                                headerWithName(CONTENT_TYPE).description("Content type"),
+                                headerWithName(AUTHORIZATION).description("Bearer token ")
+                        ),
+                        requestFields(
+                                fieldWithPath("episode").type(STRING).description("Episode"),
+                                fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
+                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
+                                fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
+                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode"),
+                                fieldWithPath("empathyResponse").type(STRING).description("GPT's empathetic response")
+                        ),
+                        responseFields(
+                                commonResponseFields(
+                                        fieldWithPath("[].field").type(STRING).description("에러 필드(emotionOfEpisodes)"),
+                                        fieldWithPath("[].message").type(STRING).description("에러 메시지")
+                                )
+                        ))
+                );
     }
 
     @Test

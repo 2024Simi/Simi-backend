@@ -24,7 +24,7 @@ operation::DiaryTest/createDiary[snippets='http-request,http-response,request-fi
 ==== 실패 케이스
 
 '''
-operation::DiaryTest/createDiaryWithInvalidEmotionList[snippets='http-request,http-response,request-fields,response-fields']
+operation::DiaryTest/createDiary_withInvalidEmotionList[snippets='http-request,http-response,request-fields,response-fields']
 '''
 
 '''
