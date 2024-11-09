@@ -34,4 +34,8 @@ public class AIPrompt extends AbstractJpaIdentityPersistable {
     public static AIPrompt createOf(ChatRequest request) {
         return new AIPrompt(request, false);
     }
+
+    public static AIPrompt createDefault(ChatRequest request) {
+        return new AIPrompt(request, true);
+    }
 }
