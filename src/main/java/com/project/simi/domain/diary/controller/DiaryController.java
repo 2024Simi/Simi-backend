@@ -21,8 +21,7 @@ import com.project.simi.common.base.ApiResult;
 import com.project.simi.domain.auth.resolver.Authenticated;
 import com.project.simi.domain.diary.dto.DiaryCalendarDto;
 import com.project.simi.domain.diary.dto.DiaryDto;
-import com.project.simi.domain.diary.dto.DiaryDto.DiaryCreateResponse;
-import com.project.simi.domain.diary.dto.DiaryDto.DiaryRequest;
+import com.project.simi.domain.diary.dto.DiaryDto.*;
 import com.project.simi.domain.diary.service.DiaryService;
 import com.project.simi.domain.user.dto.RequestUser;
 
@@ -47,6 +46,13 @@ public class DiaryController {
             @DateTimeFormat(pattern = "yyyy-MM-dd") @Valid @RequestParam LocalDate endDate) {
         List<DiaryCalendarDto> response =
                 diaryService.getDiariesByDate(requestUser, startDate, endDate);
+        return ApiResult.ok(response);
+    }
+
+    @PostMapping("diary/{diaryId}")
+    public ApiResult<Long> updateDiary(
+            @PathVariable Long diaryId, @Valid @RequestBody DiaryUpdateRequest request) {
+        Long response = diaryService.updateDiary(diaryId, request);
         return ApiResult.ok(response);
     }
 

@@ -44,8 +44,7 @@ public class DiaryDto {
             String thoughtOfEpisode,
             @NotEmpty @MaxEmotionCheck @UniqueEmotionTypeCheck
                     List<EmotionOfEpisodeDto> emotionOfEpisodes,
-            String resultOfEpisode,
-            String empathyResponse) {}
+            String resultOfEpisode) {}
 
     public record EmotionOfEpisodeDto(EmotionType type, List<String> details) {}
 

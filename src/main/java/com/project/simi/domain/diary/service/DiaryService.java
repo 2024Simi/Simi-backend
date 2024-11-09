@@ -14,6 +14,7 @@ import com.project.simi.domain.diary.dto.DiaryCalendarDto;
 import com.project.simi.domain.diary.dto.DiaryDto;
 import com.project.simi.domain.diary.dto.DiaryDto.DiaryCreateResponse;
 import com.project.simi.domain.diary.dto.DiaryDto.DiaryRequest;
+import com.project.simi.domain.diary.dto.DiaryDto.DiaryUpdateRequest;
 import com.project.simi.domain.diary.dto.DiaryDto.EmotionOfEpisodeDto;
 import com.project.simi.domain.diary.repository.command.DiaryCommandRepository;
 import com.project.simi.domain.diary.repository.command.DiaryQueryRepository;
@@ -67,5 +68,15 @@ public class DiaryService {
     public DiaryDto.Response getDiary(RequestUser requestUser, Long diaryId) {
         Diary diary = getDiary(diaryId);
         return DiaryDto.Response.createOf(diary);
+    }
+
+    public Long updateDiary(Long diaryId, DiaryUpdateRequest request) {
+        Diary diary = getDiary(diaryId);
+        diary.updateDiary(
+                request.episode(),
+                request.thoughtOfEpisode(),
+                request.emotionOfEpisodes().stream().map(this::createEmotionOfEpisode).toList(),
+                request.resultOfEpisode());
+        return diary.getId();
     }
 }
