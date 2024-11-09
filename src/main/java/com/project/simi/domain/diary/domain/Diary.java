@@ -1,5 +1,6 @@
 package com.project.simi.domain.diary.domain;
 
+import java.util.HashMap;
 import java.util.List;
 
 import lombok.AccessLevel;
@@ -39,6 +40,10 @@ public class Diary extends AbstractJpaIdentityPersistable {
     @Column(name = "emotion_of_episodes", nullable = false)
     private EmotionOfEpisodes emotionOfEpisodes;
 
+    @Comment("메인 감정")
+    @Column(name = "primary", nullable = false)
+    private EmotionType primary;
+
     @Comment("결과")
     @Column(name = "result_of_episode", length = 255, nullable = false)
     private String resultOfEpisode;
@@ -46,6 +51,37 @@ public class Diary extends AbstractJpaIdentityPersistable {
     @Comment("GPT의 한마디")
     @Column(name = "empathy_response", length = 255, nullable = false)
     private String empathyResponse;
+
+    private EmotionType calculatePrimaryEmotion(List<EmotionOfEpisode> emotionOfEpisodes) {
+        HashMap<EmotionType, Integer> emotionMap = new HashMap<>();
+        for (EmotionOfEpisode emotionOfEpisode : emotionOfEpisodes) {
+            EmotionType emotion = emotionOfEpisode.getType();
+            if (emotionMap.containsKey(emotion)) {
+                emotionMap.put(
+                        emotion, emotionMap.get(emotion) + emotionOfEpisode.getDetails().size());
+            } else {
+                emotionMap.put(emotion, 1);
+            }
+        }
+
+        int maxFrequency = emotionMap.values().stream().max(Integer::compareTo).orElse(0);
+
+        long maxCount = emotionMap.values().stream().filter(count -> count == maxFrequency).count();
+
+        if (maxCount > 1) {
+            return EmotionType.SOMEHOW;
+        }
+
+        return emotionMap.entrySet().stream()
+                .filter(entry -> entry.getValue() == maxFrequency)
+                .findFirst()
+                .get()
+                .getKey();
+    }
+
+    private void updatePrimaryEmotion(EmotionType primary) {
+        this.primary = primary;
+    }
 
     public static Diary createOf(
             String episode,
@@ -59,6 +95,7 @@ public class Diary extends AbstractJpaIdentityPersistable {
         diary.emotionOfEpisodes = new EmotionOfEpisodes(emotionOfEpisodes);
         diary.resultOfEpisode = resultOfEpisode;
         diary.empathyResponse = empathyResponse;
+        diary.updatePrimaryEmotion(diary.calculatePrimaryEmotion(emotionOfEpisodes));
         return diary;
     }
 
@@ -69,12 +106,13 @@ public class Diary extends AbstractJpaIdentityPersistable {
             String resultOfEpisode,
             String empathyResponse,
             Long createdBy) {
-        Diary diary = new Diary();
-        diary.episode = episode;
-        diary.thoughtOfEpisode = thoughtOfEpisode;
-        diary.emotionOfEpisodes = new EmotionOfEpisodes(emotionOfEpisodes);
-        diary.resultOfEpisode = resultOfEpisode;
-        diary.empathyResponse = empathyResponse;
+        Diary diary =
+                createOf(
+                        episode,
+                        thoughtOfEpisode,
+                        emotionOfEpisodes,
+                        resultOfEpisode,
+                        empathyResponse);
         diary.createdBy = createdBy;
         return diary;
     }
