@@ -30,7 +30,12 @@ public class DiaryQueryRepositoryAdapter implements DiaryQueryRepository {
     public List<DiaryCalendarDto> getDiariesByDate(
             Long userId, LocalDate startDate, LocalDate endDate) {
         return queryFactory
-                .select(Projections.constructor(DiaryCalendarDto.class, diary.id, diary.createdAt))
+                .select(
+                        Projections.constructor(
+                                DiaryCalendarDto.class,
+                                diary.id,
+                                diary.primaryEmotion,
+                                diary.createdAt))
                 .from(diary)
                 .where(
                         diary.createdBy.eq(userId),

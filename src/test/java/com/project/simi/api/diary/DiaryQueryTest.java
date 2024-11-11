@@ -58,6 +58,7 @@ class DiaryQueryTest extends SuperIntegrationTest {
                         responseFields(
                             commonListResponseFields(
                                         fieldWithPath("diaryId").type(NUMBER).description("저장된 다이어리 ID"),
+                                        fieldWithPath("primaryEmotion").type("String").description("주요 감정"),
                                         fieldWithPath("createdAt").type(DATE).description("생성 날짜")
                             )
                         )
