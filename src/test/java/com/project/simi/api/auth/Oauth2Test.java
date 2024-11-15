@@ -44,4 +44,29 @@ public class Oauth2Test extends SuperIntegrationTest {
             ));
     }
 
+    @Test
+    void appleLogin() throws Exception {
+        mvc.perform(RestDocumentationRequestBuilders
+                        .post("/api/v1/oauth2/APPLE")
+                        .header(ACCEPT, APPLICATION_JSON_VALUE)
+                        .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                        .header("IdToken", "your_id_token")
+                        .characterEncoding("utf-8"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("{ClassName}" + "/" + "{methodName}",
+                        requestHeaders(
+                                headerWithName(ACCEPT).description("accept"),
+                                headerWithName(CONTENT_TYPE).description("content type"),
+                                headerWithName("IdToken").description("id token")
+                        ),
+                        responseFields(
+                                commonResponseFields(
+                                        fieldWithPath("accessToken").type(STRING).description("access token"),
+                                        fieldWithPath("refreshToken").type(STRING).description("refresh token"),
+                                        fieldWithPath("userId").type(NUMBER).description("user id")
+                                )
+                        )
+                ));
+    }
 }
