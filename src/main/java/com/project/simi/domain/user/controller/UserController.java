@@ -36,6 +36,7 @@ public class UserController {
         return ApiResult.ok();
     }
 
+    @Deprecated
     @PatchMapping("/private-policy")
     public ApiResult<?> agreePrivatePolicy(@Authenticated RequestUser requestUser) {
         userCommandService.agreePrivatePolicy(requestUser.getId());
