@@ -25,6 +25,7 @@ import com.project.simi.domain.user.repository.query.UserQueryRepository;
 public class Oauth2Service {
 
     private final KakaoOauth2Service kakaoOauth2Service;
+    private final AppleOauth2Service appleOauth2Service;
     private final UserQueryRepository userQueryRepository;
     private final UserCommandRepository userCommandRepository;
     private final RefreshTokenService refreshTokenService;
@@ -32,12 +33,11 @@ public class Oauth2Service {
 
     public OIDCUserInfo getUserInfoAndVerify(AuthProviderEnum provider, String idToken) {
         try {
-            switch (provider) {
-                case KAKAO:
-                    return kakaoOauth2Service.getUserInfoAndVerify(idToken);
-                default:
-                    throw new IllegalArgumentException("Invalid provider");
-            }
+            return switch (provider) {
+                case KAKAO -> kakaoOauth2Service.getUserInfoAndVerify(idToken);
+                case APPLE -> appleOauth2Service.getUserInfoAndVerify(idToken);
+                default -> throw new IllegalArgumentException("Invalid provider");
+            };
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
