@@ -45,7 +45,7 @@ public class UserConsent extends AbstractJpaLongAssignedPersistable {
     private Boolean isAgreePrivatePolicy;
 
     @Comment("개인정보 처리방침 동의 일시")
-    @Column(name = "agree_private_policy_at")
+    @Column(name = "agree_private_policy_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private LocalDateTime agreePrivatePolicyAt;
 
     @Comment("서비스 이용약관 동의 여부")
@@ -54,6 +54,7 @@ public class UserConsent extends AbstractJpaLongAssignedPersistable {
     private Boolean isAgreeTermsOfService;
 
     @Comment("서비스 이용약관 동의 일시")
+    @Column(name = "agree_terms_of_service_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private LocalDateTime agreeTermsOfServiceAt;
 
     @Comment("마케팅 정보 수신 동의 여부")
@@ -62,7 +63,7 @@ public class UserConsent extends AbstractJpaLongAssignedPersistable {
     private Boolean isAgreeMarketing;
 
     @Comment("마케팅 정보 수신 동의 일시")
-    @Column(name = "agree_marketing_at")
+    @Column(name = "agree_marketing_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private LocalDateTime agreeMarketingAt;
 
     public static UserConsent createOf(User user) {
