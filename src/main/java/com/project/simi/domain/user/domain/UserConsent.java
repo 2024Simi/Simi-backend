@@ -41,7 +41,7 @@ public class UserConsent extends AbstractJpaLongAssignedPersistable {
 
     @Comment("개인정보 처리방침 동의 여부")
     @Column(name = "is_agree_private_policy", nullable = false)
-    @ColumnDefault("0")
+    @ColumnDefault("false")
     private Boolean isAgreePrivatePolicy;
 
     @Comment("개인정보 처리방침 동의 일시")
@@ -50,7 +50,7 @@ public class UserConsent extends AbstractJpaLongAssignedPersistable {
 
     @Comment("서비스 이용약관 동의 여부")
     @Column(name = "is_agree_terms_of_service", nullable = false)
-    @ColumnDefault("0")
+    @ColumnDefault("false")
     private Boolean isAgreeTermsOfService;
 
     @Comment("서비스 이용약관 동의 일시")
@@ -59,7 +59,7 @@ public class UserConsent extends AbstractJpaLongAssignedPersistable {
 
     @Comment("마케팅 정보 수신 동의 여부")
     @Column(name = "is_agree_marketing", nullable = false)
-    @ColumnDefault("0")
+    @ColumnDefault("false")
     private Boolean isAgreeMarketing;
 
     @Comment("마케팅 정보 수신 동의 일시")
