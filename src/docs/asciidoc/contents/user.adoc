@@ -1,0 +1,14 @@
+[#user]
+== 유저 정보
+=== 유저 정보 조회
+'''
+operation::UserQueryTest/getUserById[snippets='http-request,http-response,response-fields']
+'''
+=== 유저 닉네임 변경
+'''
+operation::UserCommandQueryTest/updateNickname[snippets='http-request,request-fields']
+'''
+=== 유저 consent 변경
+'''
+operation::UserCommandQueryTest/updateConsent[snippets='http-request,request-fields']
+'''
