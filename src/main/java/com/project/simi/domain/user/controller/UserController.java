@@ -2,6 +2,9 @@ package com.project.simi.domain.user.controller;
 
 import lombok.RequiredArgsConstructor;
 
+import jakarta.validation.Valid;
+
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,6 +25,7 @@ import com.project.simi.domain.user.service.UserQueryService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
+@Validated
 public class UserController {
     private final UserQueryService userQueryService;
     private final UserCommandService userCommandService;
@@ -49,7 +53,8 @@ public class UserController {
 
     @PutMapping("/consent")
     public ApiResult<?> updateConsent(
-            @Authenticated RequestUser requestUser, @RequestBody UserConsentDto.Request request) {
+            @Authenticated RequestUser requestUser,
+            @RequestBody @Valid UserConsentDto.Request request) {
         userConsentCommandService.updateConsent(requestUser, request);
 
         return ApiResult.ok();
