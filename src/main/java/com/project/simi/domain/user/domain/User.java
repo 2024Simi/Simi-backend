@@ -75,16 +75,6 @@ public class User extends AbstractJpaIdentityPersistable {
     @Column(name = "non_locked", nullable = false)
     private boolean notExpired = true;
 
-    @Comment("약관 동의 여부 ")
-    @Column(name = "is_private_policy_agreed", nullable = false)
-    @ColumnDefault("false")
-    private Boolean isPrivatePolicyAgreed = false;
-
-    @Comment("프로필 설정 여부")
-    @Column(name = "is_profile_settings", nullable = false)
-    @ColumnDefault("false")
-    private Boolean isProfileSettings = false;
-
     public static User createOf(
             String loginId,
             String password,
@@ -107,10 +97,5 @@ public class User extends AbstractJpaIdentityPersistable {
 
     public void updateNickname(String nickname) {
         this.nickname = nickname;
-        this.isProfileSettings = true;
-    }
-
-    public void agreePrivatePolicy() {
-        this.isPrivatePolicyAgreed = true;
     }
 }
