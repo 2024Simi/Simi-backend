@@ -1,6 +1,7 @@
 package com.project.simi.domain.user.domain;
 
 import java.time.LocalDateTime;
+import java.util.function.BiConsumer;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 
 import com.project.simi.domain.common.domain.AbstractJpaLongAssignedPersistable;
@@ -27,7 +29,9 @@ import com.project.simi.domain.user.dto.UserConsentDto.Request;
 @Table(name = "simi_user_consent")
 public class UserConsent extends AbstractJpaLongAssignedPersistable {
 
-    @MapsId private Long userId;
+    @Column(name = "user_id", nullable = false)
+    @Comment("사용자 ID")
+    private Long userId;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
@@ -37,6 +41,7 @@ public class UserConsent extends AbstractJpaLongAssignedPersistable {
 
     @Comment("개인정보 처리방침 동의 여부")
     @Column(name = "is_agree_private_policy", nullable = false)
+    @ColumnDefault("0")
     private Boolean isAgreePrivatePolicy;
 
     @Comment("개인정보 처리방침 동의 일시")
@@ -45,6 +50,7 @@ public class UserConsent extends AbstractJpaLongAssignedPersistable {
 
     @Comment("서비스 이용약관 동의 여부")
     @Column(name = "is_agree_terms_of_service", nullable = false)
+    @ColumnDefault("0")
     private Boolean isAgreeTermsOfService;
 
     @Comment("서비스 이용약관 동의 일시")
@@ -52,6 +58,7 @@ public class UserConsent extends AbstractJpaLongAssignedPersistable {
 
     @Comment("마케팅 정보 수신 동의 여부")
     @Column(name = "is_agree_marketing", nullable = false)
+    @ColumnDefault("0")
     private Boolean isAgreeMarketing;
 
     @Comment("마케팅 정보 수신 동의 일시")
@@ -62,30 +69,34 @@ public class UserConsent extends AbstractJpaLongAssignedPersistable {
         return new UserConsent(user.getId(), user, false, null, false, null, false, null);
     }
 
-    public void agreePrivatePolicy() {
-        this.isAgreePrivatePolicy = true;
-        this.agreePrivatePolicyAt = LocalDateTime.now();
-    }
-
-    public void agreeTermsOfService() {
-        this.isAgreeTermsOfService = true;
-        this.agreeTermsOfServiceAt = LocalDateTime.now();
-    }
-
-    public void agreeMarketing() {
-        this.isAgreeMarketing = true;
-        this.agreeMarketingAt = LocalDateTime.now();
-    }
-
     public void update(Request request) {
-        if (request.isAgreePrivatePolicy() && !isAgreePrivatePolicy) {
-            agreePrivatePolicy();
-        }
-        if (request.isAgreeTermsOfService() && !isAgreeTermsOfService) {
-            agreeTermsOfService();
-        }
-        if (request.isAgreeMarketing() && !isAgreeMarketing) {
-            agreeMarketing();
-        }
+        setAgreementStatus(
+                request.isAgreePrivatePolicy(),
+                request.isAgreePrivatePolicy() ? LocalDateTime.now() : null,
+                (status, time) -> {
+                    this.isAgreePrivatePolicy = status;
+                    this.agreePrivatePolicyAt = time;
+                });
+
+        setAgreementStatus(
+                request.isAgreeTermsOfService(),
+                request.isAgreeTermsOfService() ? LocalDateTime.now() : null,
+                (status, time) -> {
+                    this.isAgreeTermsOfService = status;
+                    this.agreeTermsOfServiceAt = time;
+                });
+
+        setAgreementStatus(
+                request.isAgreeMarketing(),
+                request.isAgreeMarketing() ? LocalDateTime.now() : null,
+                (status, time) -> {
+                    this.isAgreeMarketing = status;
+                    this.agreeMarketingAt = time;
+                });
+    }
+
+    private void setAgreementStatus(
+            Boolean isAgree, LocalDateTime time, BiConsumer<Boolean, LocalDateTime> consumer) {
+        consumer.accept(isAgree, time);
     }
 }

@@ -1,5 +1,6 @@
 package com.project.simi.domain.user.repository.command.adapter;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,10 @@ public class UserConsentQueryRepositoryAdapter implements UserConsentQueryReposi
     @Override
     public Optional<UserConsent> findByUserId(Long userId) {
         return userConsentJpaRepository.findById(userId);
+    }
+
+    @Override
+    public Collection<UserConsent> findAll() {
+        return userConsentJpaRepository.findAll();
     }
 }
