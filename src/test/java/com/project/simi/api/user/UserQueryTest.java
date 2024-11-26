@@ -4,6 +4,7 @@ import static javax.swing.text.html.parser.DTDConstants.NUMBER;
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpHeaders.DATE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
@@ -42,8 +43,12 @@ public class UserQueryTest extends SuperIntegrationTest {
                         fieldWithPath("profileImageUrl").type(STRING).description("profile image url"),
                         fieldWithPath("nickname").type(STRING).description("nickname"),
                         fieldWithPath("provider").type(STRING).description("provider ${com.project.simi.domain.auth.enums.AuthProviderEnum.values().toString();}"  ),
-                        fieldWithPath("isPrivatePolicyAgreed").type(BOOLEAN).description("is private policy agreed"),
-                        fieldWithPath("isProfileSettings").type(BOOLEAN).description("is profile settings")
+                        fieldWithPath("isAgreePrivatePolicy").type(BOOLEAN).description("agree private policy"),
+                        fieldWithPath("agreePrivatePolicyAt").type(DATE).description("agree private policy at"),
+                        fieldWithPath("isAgreeTermsOfService").type(BOOLEAN).description("agree terms of service"),
+                        fieldWithPath("agreeTermsOfServiceAt").type(DATE).description("agree terms of service at"),
+                        fieldWithPath("isAgreeMarketingInfo").type(BOOLEAN).description("agree marketing info"),
+                        fieldWithPath("agreeMarketingInfoAt").type(DATE).description("agree marketing info at")
                     )
                 )
             ));

@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.simi.domain.user.domain.User;
+import com.project.simi.domain.user.domain.UserConsent;
 import com.project.simi.domain.user.dto.UserDto.UserResponseDto;
+import com.project.simi.domain.user.repository.query.UserConsentQueryRepository;
 import com.project.simi.domain.user.repository.query.UserQueryRepository;
 
 @Service
@@ -14,6 +16,7 @@ import com.project.simi.domain.user.repository.query.UserQueryRepository;
 @Transactional(readOnly = true)
 public class UserQueryService {
     private final UserQueryRepository userQueryRepository;
+    private final UserConsentQueryRepository userConsentQueryRepository;
 
     private User findById(Long id) {
         return userQueryRepository.getUserById(id);
@@ -21,6 +24,9 @@ public class UserQueryService {
 
     public UserResponseDto getUserById(Long id) {
         User user = findById(id);
-        return UserResponseDto.createOf(user);
+        UserConsent userConsent =
+                userConsentQueryRepository.findByUserId(id).orElse(UserConsent.createOf(user));
+
+        return UserResponseDto.createOf(user, userConsent);
     }
 }

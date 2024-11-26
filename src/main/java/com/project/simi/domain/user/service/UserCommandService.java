@@ -20,11 +20,6 @@ public class UserCommandService {
         user.updateNickname(nickname);
     }
 
-    public void agreePrivatePolicy(Long id) {
-        User user = getUserById(id);
-        user.agreePrivatePolicy();
-    }
-
     private User getUserById(Long id) {
         return userQueryRepository.getUserById(id);
     }
