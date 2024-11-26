@@ -61,26 +61,6 @@ public class UserCommandTest extends SuperIntegrationTest {
             ));
     }
 
-    @Test
-    @Deprecated
-    void agreePrivatePolicy() throws Exception {
-        mvc.perform(RestDocumentationRequestBuilders
-                .patch("/api/v1/users/private-policy")
-                .header(AUTHORIZATION, createDefaultAuthentication())
-                .header(ACCEPT, APPLICATION_JSON_VALUE)
-                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .characterEncoding("utf-8"))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andDo(document(
-                "{ClassName}" + "/" + "{methodName}",
-                requestHeaders(
-                    headerWithName(ACCEPT).description("accept"),
-                    headerWithName(AUTHORIZATION).description("authorization")
-                )
-            ));
-    }
-
 
     @Test
     void updateConsent() throws Exception {
