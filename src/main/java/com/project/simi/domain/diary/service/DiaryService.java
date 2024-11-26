@@ -30,7 +30,13 @@ public class DiaryService {
     private final DiaryQueryRepository diaryQueryRepository;
     private final AIRequestHelperService aiRequestHelperService;
 
-    public DiaryCreateResponse createDiary(DiaryRequest request) {
+    public DiaryCreateResponse createDiary(RequestUser requestUser, DiaryRequest request) {
+        // 작성한 일기가 있는지 확인. 있으면 오류, 없으면 생성
+        //        if (diaryQueryRepository.existsByUserIdAndCreatedAt(requestUser.getId(),
+        // LocalDate.now())) {
+        //            throw new IllegalArgumentException("이미 작성한 일기가 있습니다.");
+        //        }
+
         String empathyResponse =
                 aiRequestHelperService.requestChatResponse(request.toString()).getChoices().stream()
                         .map(res -> res.getMessage().getContent())

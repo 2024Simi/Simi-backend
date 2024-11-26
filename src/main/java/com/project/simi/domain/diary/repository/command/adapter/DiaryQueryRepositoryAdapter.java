@@ -46,6 +46,21 @@ public class DiaryQueryRepositoryAdapter implements DiaryQueryRepository {
     }
 
     @Override
+    public Boolean existsByUserIdAndCreatedAt(Long userId, LocalDate createdAt) {
+        return queryFactory
+                        .selectOne()
+                        .from(diary)
+                        .where(
+                                diary.createdBy.eq(userId),
+                                diary.createdAt.eq(
+                                        createdAt
+                                                .atStartOfDay(ZoneId.of("Asia/Seoul"))
+                                                .toInstant()))
+                        .fetchFirst()
+                != null;
+    }
+
+    @Override
     public Diary getById(Long diaryId) {
         return diaryJpaRepository
                 .findById(diaryId)
