@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.simi.common.exception.TooManyRequestsException;
-import com.project.simi.common.exception.code.TooManyRequestsCode;
 import com.project.simi.domain.ai.service.AIRequestHelperService;
 import com.project.simi.domain.diary.domain.Diary;
 import com.project.simi.domain.diary.domain.EmotionOfEpisode;
@@ -36,9 +34,10 @@ public class DiaryService {
 
     public DiaryCreateResponse createDiary(RequestUser requestUser, DiaryRequest request) {
         // 작성한 일기가 있는지 확인. 있으면 오류, 없으면 생성
-        if (diaryQueryRepository.existsByUserIdAndCreatedAt(requestUser.getId(), LocalDate.now())) {
-            throw new TooManyRequestsException(TooManyRequestsCode.DAILY_LIMIT_EXCEEDED);
-        }
+        //        if (diaryQueryRepository.existsByUserIdAndCreatedAt(requestUser.getId(),
+        // LocalDate.now())) {
+        //            throw new TooManyRequestsException(TooManyRequestsCode.DAILY_LIMIT_EXCEEDED);
+        //        }
 
         String empathyResponse =
                 aiRequestHelperService.requestChatResponse(request.toString()).getChoices().stream()
