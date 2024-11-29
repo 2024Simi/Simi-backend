@@ -33,6 +33,20 @@ public class MockUserFactory {
         );
     }
 
+    @Bean(name = "mockUser")
+    public User mockUser() {
+        return createMockUser(
+            User.createOf(
+                    "user",
+                    passwordEncoder.encode("password"),
+                    "url",
+                    "",
+                    "",
+                    List.of(AuthoriryEnum.ROLE_DEFAULT),
+                    AuthProviderEnum.BASIC
+            )
+        );
+    }
 
     public User createMockUser(User user) {
         return userJpaRepository.save(user);

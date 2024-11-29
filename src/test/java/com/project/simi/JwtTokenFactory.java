@@ -16,7 +16,15 @@ public class JwtTokenFactory {
     @Qualifier("mockDefaultUser")
     private User mockDefaultUser;
 
+    @Autowired
+    @Qualifier("mockUser")
+    private User mockUser;
+
     public String createDefaultAuthentication() {
         return "Bearer " + jwtTokenProvider.generateAccessTokenValue(mockDefaultUser);
+    }
+
+    public String createUserAuthentication() {
+        return "Bearer " + jwtTokenProvider.generateAccessTokenValue(mockUser);
     }
 }

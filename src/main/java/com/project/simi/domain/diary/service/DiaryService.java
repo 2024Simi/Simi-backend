@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import com.project.simi.domain.diary.repository.command.DiaryCommandRepository;
 import com.project.simi.domain.diary.repository.command.DiaryQueryRepository;
 import com.project.simi.domain.user.dto.RequestUser;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -32,10 +34,14 @@ public class DiaryService {
 
     public DiaryCreateResponse createDiary(RequestUser requestUser, DiaryRequest request) {
         // 작성한 일기가 있는지 확인. 있으면 오류, 없으면 생성
-        //        if (diaryQueryRepository.existsByUserIdAndCreatedAt(requestUser.getId(),
-        // LocalDate.now())) {
-        //            throw new IllegalArgumentException("이미 작성한 일기가 있습니다.");
-        //        }
+        log.info(
+                "작성한 일기가 있는지 확인합니다.{} / {}",
+                requestUser.getId(),
+                diaryQueryRepository.existsByUserIdAndCreatedAt(
+                        requestUser.getId(), LocalDate.now()));
+        if (diaryQueryRepository.existsByUserIdAndCreatedAt(requestUser.getId(), LocalDate.now())) {
+            throw new IllegalArgumentException("이미 작성한 일기가 있습니다.");
+        }
 
         String empathyResponse =
                 aiRequestHelperService.requestChatResponse(request.toString()).getChoices().stream()

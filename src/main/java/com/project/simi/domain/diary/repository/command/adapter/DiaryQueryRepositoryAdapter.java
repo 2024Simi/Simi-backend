@@ -52,8 +52,10 @@ public class DiaryQueryRepositoryAdapter implements DiaryQueryRepository {
                         .from(diary)
                         .where(
                                 diary.createdBy.eq(userId),
-                                diary.createdAt.eq(
+                                diary.createdAt.between(
+                                        createdAt.atStartOfDay(ZoneId.of("Asia/Seoul")).toInstant(),
                                         createdAt
+                                                .plusDays(1)
                                                 .atStartOfDay(ZoneId.of("Asia/Seoul"))
                                                 .toInstant()))
                         .fetchFirst()

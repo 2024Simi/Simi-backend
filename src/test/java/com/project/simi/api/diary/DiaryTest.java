@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 @Import(MockCerebrasConfig.class)
 class DiaryTest extends SuperIntegrationTest {
     @Test
@@ -40,11 +41,12 @@ class DiaryTest extends SuperIntegrationTest {
                 List.of(new EmotionOfEpisodeDto(EmotionType.HAPPY, List.of("행복", "즐거움"))),
                 "결과"
         );
+
         mvc.perform(RestDocumentationRequestBuilders
                         .post("/api/v1/diary")
                         .header(ACCEPT, APPLICATION_JSON_VALUE)
                         .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                        .header(AUTHORIZATION, createDefaultAuthentication())
+                        .header(AUTHORIZATION, createUserAuthentication())
                         .content(objectMapper.writeValueAsString(request))
                         .characterEncoding("utf-8"))
                 .andDo(print())
@@ -69,6 +71,47 @@ class DiaryTest extends SuperIntegrationTest {
                                 )
                         )
                 ));
+    }
+
+    @Test
+    void createDiary_with_alreadyExistDiary() throws Exception {
+        DiaryDto.DiaryRequest request = new DiaryDto.DiaryRequest(
+                "사건",
+                "생각",
+                List.of(new EmotionOfEpisodeDto(EmotionType.HAPPY, List.of("행복", "즐거움"))),
+                "결과"
+        );
+
+        mvc.perform(RestDocumentationRequestBuilders
+                        .post("/api/v1/diary")
+                        .header(ACCEPT, APPLICATION_JSON_VALUE)
+                        .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                        .header(AUTHORIZATION, createDefaultAuthentication())
+                        .content(objectMapper.writeValueAsString(request))
+                        .characterEncoding("utf-8"))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].message")
+//                        .value("이미 작성한 일기가 있습니다."))
+                .andDo(document("{ClassName}" + "/" + "{methodName}",
+                        requestHeaders(
+                                headerWithName(ACCEPT).description("Header"),
+                                headerWithName(CONTENT_TYPE).description("Content type"),
+                                headerWithName(AUTHORIZATION).description("Bearer token ")
+                        ),
+                        requestFields(
+                                fieldWithPath("episode").type(STRING).description("Episode"),
+                                fieldWithPath("thoughtOfEpisode").type(STRING).description("Thought of episode"),
+                                fieldWithPath("emotionOfEpisodes[].type").type(STRING).description(Arrays.toString(EmotionType.values())),
+                                fieldWithPath("emotionOfEpisodes[].details").type(ARRAY).description("Details of the emotion"),
+                                fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode")
+                        ),
+                        responseFields(
+                                commonResponseFields(
+                                        fieldWithPath("[].message").type(STRING).description("에러 메시지")
+                                )
+                        ))
+                );
     }
 
     @Test
