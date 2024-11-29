@@ -90,9 +90,9 @@ class DiaryTest extends SuperIntegrationTest {
                         .content(objectMapper.writeValueAsString(request))
                         .characterEncoding("utf-8"))
                 .andDo(print())
-                .andExpect(status().is5xxServerError())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].message")
-//                        .value("이미 작성한 일기가 있습니다."))
+                .andExpect(status().isTooManyRequests())
+                .andExpect(MockMvcResultMatchers.jsonPath("message")
+                        .value("하루 작성 가능한 최대 개수를 초과했습니다."))
                 .andDo(document("{ClassName}" + "/" + "{methodName}",
                         requestHeaders(
                                 headerWithName(ACCEPT).description("Header"),
@@ -107,9 +107,7 @@ class DiaryTest extends SuperIntegrationTest {
                                 fieldWithPath("resultOfEpisode").type(STRING).description("Result of the episode")
                         ),
                         responseFields(
-                                commonResponseFields(
-                                        fieldWithPath("[].message").type(STRING).description("에러 메시지")
-                                )
+                                commonResponseFields()
                         ))
                 );
     }
