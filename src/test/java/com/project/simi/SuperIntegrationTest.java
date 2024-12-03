@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.project.simi.domain.user.domain.User;
 import com.project.simi.mock.MockTestFactory;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -85,6 +86,10 @@ public class SuperIntegrationTest {
 
     protected String createDefaultAuthentication() {
         return jwtTokenFactory.createDefaultAuthentication();
+    }
+
+    protected String createUserAuthentication() {
+        return jwtTokenFactory.createUserAuthentication();
     }
 
     protected FieldDescriptor[] commonResponseFields(FieldDescriptor... dataFields) {

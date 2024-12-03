@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.METHOD_NOT_ALLOWED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 import java.util.List;
@@ -25,6 +26,7 @@ import com.project.simi.common.base.ApiResult;
 import com.project.simi.common.base.ValidationErrorResponse;
 import com.project.simi.common.exception.BusinessException;
 import com.project.simi.common.exception.NotFoundException;
+import com.project.simi.common.exception.TooManyRequestsException;
 
 @Slf4j
 @RestControllerAdvice
@@ -42,6 +44,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(code = BAD_REQUEST)
     @ExceptionHandler(BusinessException.class)
     public ApiResult<?> handleBusinessException(final BusinessException e) {
+        log.error(e.getMessage(), e);
+        ExceptionMDCBuilder.getStringStringMap(e);
+
+        return ApiResult.of(e);
+    }
+
+    @ResponseStatus(code = TOO_MANY_REQUESTS)
+    @ExceptionHandler(TooManyRequestsException.class)
+    public ApiResult<?> handleTooManyRequestsException(final TooManyRequestsException e) {
         log.error(e.getMessage(), e);
         ExceptionMDCBuilder.getStringStringMap(e);
 
