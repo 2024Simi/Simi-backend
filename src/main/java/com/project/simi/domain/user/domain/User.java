@@ -69,11 +69,11 @@ public class User extends AbstractJpaIdentityPersistable {
 
     @Comment("계정 만료 여부")
     @Column(name = "non_expired", nullable = false)
-    private boolean nonLocked = true;
+    private boolean notExpired = true;
 
     @Comment("계정 정지 여부")
     @Column(name = "non_locked", nullable = false)
-    private boolean notExpired = true;
+    private boolean nonLocked = true;
 
     public static User createOf(
             String loginId,
