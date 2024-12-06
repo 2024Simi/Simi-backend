@@ -58,7 +58,7 @@ public class LoginService {
             return LoginFlagEnum.WITHDRAWAL;
         }
 
-        boolean hasUserConsent = !userConsentQueryRepository.findByUserId(user.getId()).isEmpty();
+        boolean hasUserConsent = userConsentQueryRepository.findByUserId(user.getId()).isPresent();
         boolean hasUserNickname = !user.getNickname().isEmpty();
 
         if (hasUserConsent && !hasUserNickname) {

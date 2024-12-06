@@ -1,5 +1,6 @@
 package com.project.simi.api.auth;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
@@ -13,13 +14,20 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.project.simi.SuperIntegrationTest;
 import com.project.simi.domain.auth.domain.RefreshToken;
 import com.project.simi.domain.auth.dto.LoginDto;
 import com.project.simi.domain.auth.dto.LogoutDto;
+import com.project.simi.domain.user.domain.User;
+import com.project.simi.domain.user.domain.UserConsent;
+import com.project.simi.domain.user.repository.query.UserConsentQueryRepository;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -29,6 +37,14 @@ class LoginTest extends SuperIntegrationTest {
     @Autowired
     @Qualifier("mockRefreshToken")
     private RefreshToken mockRefreshToken;
+
+    @Autowired
+    @Qualifier("mockDefaultUser")
+    private User mockUser;
+
+    @InjectMocks
+    private UserConsentQueryRepository userConsentQueryRepository;
+
     @Test
     void login() throws Exception {
         LoginDto.Request request = new LoginDto.Request("groot", "password");
