@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.simi.common.base.ApiResult;
 import com.project.simi.domain.auth.dto.LoginDto;
+import com.project.simi.domain.auth.dto.LoginDto.LoginResponse;
 import com.project.simi.domain.auth.dto.LoginDto.Response;
 import com.project.simi.domain.auth.dto.LogoutDto;
 import com.project.simi.domain.auth.resolver.Authenticated;
@@ -26,7 +27,7 @@ public class AuthController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public ApiResult<Response> login(@RequestBody @Valid LoginDto.Request loginRequest) {
+    public ApiResult<LoginResponse> login(@RequestBody @Valid LoginDto.Request loginRequest) {
         return ApiResult.ok(loginService.login(loginRequest));
     }
 

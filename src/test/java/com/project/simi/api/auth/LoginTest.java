@@ -53,7 +53,8 @@ class LoginTest extends SuperIntegrationTest {
                                 commonResponseFields(
                                         fieldWithPath("accessToken").type(STRING).description("access token"),
                                         fieldWithPath("refreshToken").type(STRING).description("refresh token"),
-                                        fieldWithPath("userId").type(NUMBER).description("user id")
+                                        fieldWithPath("userId").type(NUMBER).description("user id"),
+                                        fieldWithPath("loginFlag").type(STRING).description("login flag")
                                 )
                         )
                 ));
