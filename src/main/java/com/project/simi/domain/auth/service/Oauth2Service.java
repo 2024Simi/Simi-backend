@@ -80,7 +80,7 @@ public class Oauth2Service {
                         oidcUserInfo.getSub(),
                         oidcUserInfo.getPicture(),
                         oidcUserInfo.getNickname(),
-                        oidcUserInfo.getNickname(),
+                        null,
                         List.of(AuthoriryEnum.ROLE_DEFAULT),
                         provider);
         return userOptional.orElseGet(() -> userCommandRepository.save(user));
