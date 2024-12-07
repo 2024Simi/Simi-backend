@@ -17,7 +17,6 @@ import com.project.simi.domain.auth.dto.LoginDto.Response;
 import com.project.simi.domain.auth.provider.JwtTokenProvider;
 import com.project.simi.domain.auth.repository.RefreshTokenJpaRepository;
 import com.project.simi.domain.user.domain.User;
-import com.project.simi.domain.user.repository.query.UserConsentQueryRepository;
 import com.project.simi.domain.user.repository.query.UserQueryRepository;
 
 @Service
@@ -28,7 +27,6 @@ public class LoginService {
     private final UserQueryRepository userQueryRepository;
     private final RefreshTokenService refreshTokenService;
     private final PasswordEncoder passwordEncoder;
-    private final UserConsentQueryRepository userConsentQueryRepository;
     private final RefreshTokenJpaRepository refreshTokenJpaRepository;
 
     public LoginResponse login(Request request) {
