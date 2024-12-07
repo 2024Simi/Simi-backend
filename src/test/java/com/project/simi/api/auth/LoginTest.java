@@ -38,13 +38,6 @@ class LoginTest extends SuperIntegrationTest {
     @Qualifier("mockRefreshToken")
     private RefreshToken mockRefreshToken;
 
-    @Autowired
-    @Qualifier("mockDefaultUser")
-    private User mockUser;
-
-    @InjectMocks
-    private UserConsentQueryRepository userConsentQueryRepository;
-
     @Test
     void login() throws Exception {
         LoginDto.Request request = new LoginDto.Request("groot", "password");
@@ -70,7 +63,7 @@ class LoginTest extends SuperIntegrationTest {
                                         fieldWithPath("accessToken").type(STRING).description("access token"),
                                         fieldWithPath("refreshToken").type(STRING).description("refresh token"),
                                         fieldWithPath("userId").type(NUMBER).description("user id"),
-                                        fieldWithPath("loginFlag").type(STRING).description("login flag")
+                                        fieldWithPath("userStatus").type(STRING).description("login flag")
                                 )
                         )
                 ));

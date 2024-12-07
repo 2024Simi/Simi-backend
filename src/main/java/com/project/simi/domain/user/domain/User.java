@@ -71,7 +71,7 @@ public class User extends AbstractJpaIdentityPersistable {
     @Comment("유저 상태")
     @Column(name = "status", length = 20, nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private UserStatusEnum status;
+    private UserStatusEnum status = UserStatusEnum.SIGN_UP;
 
     public static User createOf(
             String loginId,
@@ -80,8 +80,7 @@ public class User extends AbstractJpaIdentityPersistable {
             String name,
             String nickname,
             List<AuthoriryEnum> authorities,
-            AuthProviderEnum provider,
-            UserStatusEnum status) {
+            AuthProviderEnum provider) {
         User user = new User();
         user.loginId = loginId;
         user.password = password;
@@ -90,8 +89,6 @@ public class User extends AbstractJpaIdentityPersistable {
         user.nickname = nickname;
         user.authorities = authorities;
         user.provider = provider;
-        user.status = status;
-
         return user;
     }
 

@@ -15,7 +15,6 @@ import com.project.simi.domain.auth.dto.LoginDto.Response;
 import com.project.simi.domain.auth.dto.OIDCUserInfo;
 import com.project.simi.domain.auth.enums.AuthProviderEnum;
 import com.project.simi.domain.auth.enums.AuthoriryEnum;
-import com.project.simi.domain.auth.enums.UserStatusEnum;
 import com.project.simi.domain.auth.provider.JwtTokenProvider;
 import com.project.simi.domain.user.domain.User;
 import com.project.simi.domain.user.repository.command.UserCommandRepository;
@@ -63,8 +62,7 @@ public class Oauth2Service {
                         oidcUserInfo.getNickname(),
                         "",
                         List.of(AuthoriryEnum.ROLE_DEFAULT),
-                        provider,
-                        UserStatusEnum.SIGN_UP);
+                        provider);
         return userOptional.orElseGet(() -> userCommandRepository.save(user));
     }
 

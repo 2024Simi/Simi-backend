@@ -38,6 +38,8 @@ public class UserConsentCommandService {
                             newUserConsent.update(request);
                             userConsentCommandRepository.save(newUserConsent);
 
+                            // TODO : 필수 부분은 검증 해야하는거 아닐까유
+
                             if (user.getStatus().equals(UserStatusEnum.SIGN_UP)) {
                                 user.updateStatus(UserStatusEnum.NICKNAME_PENDING);
                             }
