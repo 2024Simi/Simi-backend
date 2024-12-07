@@ -64,7 +64,7 @@ public class Oauth2Service {
                         null,
                         List.of(AuthoriryEnum.ROLE_DEFAULT),
                         provider,
-                        UserStatusEnum.SIGN_IN);
+                        UserStatusEnum.SIGN_UP);
         return userOptional.orElseGet(() -> userCommandRepository.save(user));
     }
 
