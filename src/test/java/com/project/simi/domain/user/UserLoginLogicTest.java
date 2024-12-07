@@ -5,7 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.project.simi.domain.user.domain.User;
-import com.project.simi.domain.auth.enums.LoginFlagEnum;
+import com.project.simi.domain.auth.enums.UserStatusEnum;
 import com.project.simi.domain.user.domain.UserConsent;
 import com.project.simi.domain.user.repository.query.UserConsentQueryRepository;
 import java.util.Optional;
@@ -30,10 +30,10 @@ class UserLoginLogicTest {
         when(mockUser.isNotExpired()).thenReturn(true);
 
         // When
-        LoginFlagEnum result = calculateLoginFlag(mockUser);
+        UserStatusEnum result = calculateLoginFlag(mockUser);
 
         // Then
-        assertThat(result).isEqualTo(LoginFlagEnum.WITHDRAWAL);
+        assertThat(result).isEqualTo(UserStatusEnum.WITHDRAWAL);
     }
 
     @Test
@@ -48,10 +48,10 @@ class UserLoginLogicTest {
                 .thenReturn(Optional.of(mockConsent));
 
         // When
-        LoginFlagEnum result = calculateLoginFlag(mockUser);
+        UserStatusEnum result = calculateLoginFlag(mockUser);
 
         // Then
-        assertThat(result).isEqualTo(LoginFlagEnum.NICKNAME_PENDING);
+        assertThat(result).isEqualTo(UserStatusEnum.NICKNAME_PENDING);
     }
 
     @Test
@@ -67,10 +67,10 @@ class UserLoginLogicTest {
         ).thenReturn(Optional.of(mockConsent));
 
         // When
-        LoginFlagEnum result = calculateLoginFlag(mockUser);
+        UserStatusEnum result = calculateLoginFlag(mockUser);
 
         // Then
-        assertThat(result).isEqualTo(LoginFlagEnum.LOGIN);
+        assertThat(result).isEqualTo(UserStatusEnum.LOGIN);
     }
 
     @Test
@@ -84,26 +84,26 @@ class UserLoginLogicTest {
                 .thenReturn(Optional.empty());
 
         // When
-        LoginFlagEnum result = calculateLoginFlag(mockUser);
+        UserStatusEnum result = calculateLoginFlag(mockUser);
 
         // Then
-        assertThat(result).isEqualTo(LoginFlagEnum.SIGN_IN);
+        assertThat(result).isEqualTo(UserStatusEnum.SIGN_IN);
     }
 
-    private LoginFlagEnum calculateLoginFlag(User user) {
+    private UserStatusEnum calculateLoginFlag(User user) {
         if (!user.isNonLocked() || !user.isNotExpired()) {
-            return LoginFlagEnum.WITHDRAWAL;
+            return UserStatusEnum.WITHDRAWAL;
         }
 
         boolean hasUserConsent = !mockUserConsentQueryRepository.findByUserId(user.getId()).isEmpty();
         boolean hasUserNickname = !user.getNickname().isEmpty();
 
         if (hasUserConsent && !hasUserNickname) {
-            return LoginFlagEnum.NICKNAME_PENDING;
+            return UserStatusEnum.NICKNAME_PENDING;
         }
         if (hasUserNickname) {
-            return LoginFlagEnum.LOGIN;
+            return UserStatusEnum.LOGIN;
         }
-        return LoginFlagEnum.SIGN_IN;
+        return UserStatusEnum.SIGN_IN;
     }
 }

@@ -23,6 +23,7 @@ import org.hibernate.annotations.SQLRestriction;
 import com.project.simi.common.converter.StringToListConverter;
 import com.project.simi.domain.auth.enums.AuthProviderEnum;
 import com.project.simi.domain.auth.enums.AuthoriryEnum;
+import com.project.simi.domain.auth.enums.UserStatusEnum;
 import com.project.simi.domain.common.domain.AbstractJpaIdentityPersistable;
 
 @Getter
@@ -67,13 +68,10 @@ public class User extends AbstractJpaIdentityPersistable {
     @Enumerated(value = EnumType.STRING)
     private AuthProviderEnum provider;
 
-    @Comment("계정 만료 여부")
-    @Column(name = "non_expired", nullable = false)
-    private boolean notExpired = true;
-
-    @Comment("계정 정지 여부")
-    @Column(name = "non_locked", nullable = false)
-    private boolean nonLocked = true;
+    @Comment("유저 상태")
+    @Column(name = "status", length = 20, nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserStatusEnum status;
 
     public static User createOf(
             String loginId,
@@ -82,7 +80,8 @@ public class User extends AbstractJpaIdentityPersistable {
             String name,
             String nickname,
             List<AuthoriryEnum> authorities,
-            AuthProviderEnum provider) {
+            AuthProviderEnum provider,
+            UserStatusEnum status) {
         User user = new User();
         user.loginId = loginId;
         user.password = password;
@@ -91,6 +90,7 @@ public class User extends AbstractJpaIdentityPersistable {
         user.nickname = nickname;
         user.authorities = authorities;
         user.provider = provider;
+        user.status = status;
 
         return user;
     }
