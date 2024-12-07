@@ -98,4 +98,8 @@ public class User extends AbstractJpaIdentityPersistable {
     public void updateNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    public void updateStatus(UserStatusEnum status) {
+        this.status = status;
+    }
 }
