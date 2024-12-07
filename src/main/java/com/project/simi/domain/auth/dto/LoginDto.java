@@ -2,7 +2,7 @@ package com.project.simi.domain.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-import com.project.simi.domain.auth.enums.LoginFlagEnum;
+import com.project.simi.domain.auth.enums.UserStatusEnum;
 
 public class LoginDto {
 
@@ -13,9 +13,9 @@ public class LoginDto {
     public record RefreshRequest(@NotBlank String refreshToken) {}
 
     public record LoginResponse(
-            String accessToken, String refreshToken, Long userId, LoginFlagEnum loginFlag) {
+            String accessToken, String refreshToken, Long userId, UserStatusEnum userStatus) {
 
-        public LoginResponse(Response tokenResponse, LoginFlagEnum loginFlagEnum) {
+        public LoginResponse(Response tokenResponse, UserStatusEnum loginFlagEnum) {
             this(
                     tokenResponse.accessToken,
                     tokenResponse.refreshToken,
