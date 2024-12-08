@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.project.simi.domain.auth.dto.LoginDto;
+import com.project.simi.domain.auth.dto.LoginDto.LoginResponse;
 import com.project.simi.domain.auth.dto.LoginDto.Response;
 import com.project.simi.domain.auth.dto.OIDCUserInfo;
 import com.project.simi.domain.auth.enums.AuthProviderEnum;
@@ -43,10 +44,12 @@ public class Oauth2Service {
         }
     }
 
-    public Response loginSignUp(AuthProviderEnum provider, String idToken) {
+    public LoginResponse loginSignUp(AuthProviderEnum provider, String idToken) {
         OIDCUserInfo oidcUserInfo = getUserInfoAndVerify(provider, idToken);
         User user = createAndGetDefaultUser(oidcUserInfo, provider);
-        return generateToken(user);
+
+        Response tokenResponse = generateToken(user);
+        return new LoginResponse(tokenResponse, user.getStatus());
     }
 
     private User createAndGetDefaultUser(OIDCUserInfo oidcUserInfo, AuthProviderEnum provider) {
@@ -57,7 +60,7 @@ public class Oauth2Service {
                         oidcUserInfo.getSub(),
                         oidcUserInfo.getPicture(),
                         oidcUserInfo.getNickname(),
-                        oidcUserInfo.getNickname(),
+                        "",
                         List.of(AuthoriryEnum.ROLE_DEFAULT),
                         provider);
         return userOptional.orElseGet(() -> userCommandRepository.save(user));

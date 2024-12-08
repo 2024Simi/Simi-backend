@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.simi.common.base.ApiResult;
+import com.project.simi.domain.auth.dto.LoginDto.LoginResponse;
 import com.project.simi.domain.auth.enums.AuthProviderEnum;
 import com.project.simi.domain.auth.service.Oauth2Service;
 
@@ -22,7 +23,7 @@ public class Oauth2Controller {
     private final Oauth2Service oauth2Service;
 
     @PostMapping("/{provider}")
-    public ApiResult<?> oauth2Login(
+    public ApiResult<LoginResponse> oauth2Login(
             @PathVariable AuthProviderEnum provider,
             @Parameter(name = "IdToken", description = "Oauth2 사용자 ID 토큰", required = true)
                     @RequestHeader("IdToken")

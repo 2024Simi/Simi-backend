@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.project.simi.domain.auth.enums.AuthoriryEnum;
+import com.project.simi.domain.auth.enums.UserStatusEnum;
 import com.project.simi.domain.user.domain.User;
 import com.project.simi.domain.user.dto.RequestUser;
 
@@ -36,12 +37,12 @@ public class AuthenticatedUser implements UserDetails, RequestUser {
 
     @Override
     public boolean isAccountNonExpired() {
-        return user.isNotExpired();
+        return !user.getStatus().equals(UserStatusEnum.EXPIRED);
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return user.isNonLocked();
+        return !user.getStatus().equals(UserStatusEnum.LOCKED);
     }
 
     @Override

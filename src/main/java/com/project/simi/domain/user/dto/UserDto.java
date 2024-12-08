@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import com.project.simi.domain.auth.enums.AuthProviderEnum;
+import com.project.simi.domain.auth.enums.UserStatusEnum;
 import com.project.simi.domain.common.dto.IdResponseBase;
 import com.project.simi.domain.user.domain.User;
 import com.project.simi.domain.user.domain.UserConsent;
@@ -30,6 +31,7 @@ public class UserDto {
         private final String loginId;
         private final String nickname;
         private final AuthProviderEnum provider;
+        private final UserStatusEnum status;
         private final Boolean isAgreePrivatePolicy;
         private final LocalDateTime agreePrivatePolicyAt;
         private final Boolean isAgreeTermsOfService;
@@ -43,6 +45,7 @@ public class UserDto {
                 String profileImageUrl,
                 String nickname,
                 AuthProviderEnum provider,
+                UserStatusEnum status,
                 boolean isAgreePrivatePolicy,
                 LocalDateTime agreePrivatePolicyAt,
                 boolean isAgreeTermsOfService,
@@ -54,6 +57,7 @@ public class UserDto {
             this.profileImageUrl = profileImageUrl;
             this.nickname = nickname;
             this.provider = provider;
+            this.status = status;
             this.isAgreePrivatePolicy = isAgreePrivatePolicy;
             this.agreePrivatePolicyAt = agreePrivatePolicyAt;
             this.isAgreeTermsOfService = isAgreeTermsOfService;
@@ -69,6 +73,7 @@ public class UserDto {
                     user.getProfileImageUrl(),
                     user.getNickname(),
                     user.getProvider(),
+                    user.getStatus(),
                     userConsent.getIsAgreePrivatePolicy(),
                     userConsent.getAgreePrivatePolicyAt(),
                     userConsent.getIsAgreeTermsOfService(),

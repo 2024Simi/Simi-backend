@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.project.simi.common.exception.BusinessException;
 import com.project.simi.common.exception.code.ExceptionCode;
 import com.project.simi.domain.auth.domain.RefreshToken;
+import com.project.simi.domain.auth.dto.LoginDto.LoginResponse;
 import com.project.simi.domain.auth.dto.LoginDto.RefreshRequest;
 import com.project.simi.domain.auth.dto.LoginDto.Request;
 import com.project.simi.domain.auth.dto.LoginDto.Response;
@@ -28,14 +29,13 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenJpaRepository refreshTokenJpaRepository;
 
-    public Response login(Request request) {
+    public LoginResponse login(Request request) {
         User user =
                 userQueryRepository
                         .findByLoginId(request.loginId())
                         .orElseThrow(() -> new BusinessException(ExceptionCode.LOGIN_FAILED));
 
         if (!verifyUserCredential(request.password(), user.getPassword())) {
-
             throw new BusinessException(ExceptionCode.LOGIN_FAILED);
         }
 
@@ -44,7 +44,8 @@ public class LoginService {
         String refreshTokenValue =
                 refreshTokenService.createAndSaveRefreshToken(user).getRefreshTokenValue();
 
-        return new Response(accessTokenValue, refreshTokenValue, user.getId());
+        return new LoginResponse(
+                accessTokenValue, refreshTokenValue, user.getId(), user.getStatus());
     }
 
     private boolean verifyUserCredential(String rawPassword, String encodedPassword) {
